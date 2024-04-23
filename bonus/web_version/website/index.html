@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Web Version</title>
+        <link rel="stylesheet" href="/files/css/stylesheet.css">
+        <link rel="stylesheet" href="/files/css/manage_header.css">
+        <link rel="stylesheet" href="/files/css/boostrap_dark.css">
+        <link rel="shortcut icon" type="image/x-icon" href="./files/img/icon/favicon_16_16.ico" /> <!--//IE-->
+        <link rel="icon" type="image/svg+xml" href="/files/img/icon/favicon_32_32.svg" /> <!--//Chrome extra requirements-->
+        <link rel="icon" type="image/png" href="/files/img/icon/favicon_32_32.png" /> <!--//all-->
+        <link rel="alternate icon" sizes="16x16" href="/files/img/icon/favicon_16_16.ico" />
+        <link rel="alternate icon" sizes="32x32" href="/files/img/icon/favicon_32_32.ico" />
+        <link rel="alternate icon" sizes="48x48" href="/files/img/icon/favicon_48_48.ico" />
+        <link rel="alternate icon" sizes="64x64" href="/files/img/icon/favicon_64_64.ico" />
+        <link rel="alternate icon" sizes="128x128" href="/files/img/icon/favicon_128_128.ico" />
+        <link rel="alternate icon" sizes="256x256" href="/files/img/icon/favicon_256_256.ico" />
+        <script type="text/JavaScript" src="/files/js/add_listeners.js"></script>
+        <script type="text/JavaScript" src="/files/js/spinbox/check_if_possible.js"></script>
+        <script type="text/JavaScript" src="/files/js/spinbox/decreasse_spinbox.js"></script>
+        <script type="text/JavaScript" src="/files/js/spinbox/increase_spinbox.js"></script>
+        <script type="text/JavaScript" src="/files/js/spinbox/wrap_arround.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_borwein.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_simpson.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_midpoint.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_trapezoid.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_midpoints_points.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_trapezoid_points.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_simpsons_points.js"></script>
+        <script type="text/JavaScript" src="./files/js/calculate/calculate_all_simpsons.js"></script>
+        <script type="text/JavaScript" src="./files/js/calculate/calculate_all_midpoints.js"></script>
+        <script type="text/JavaScript" src="./files/js/calculate/calculate_all_trapezoid.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_diff.js"></script>
+        <script type="text/JavaScript" src="/files/js/calculate/calculate_all.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/chart.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/compile_names.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/compile_datasets.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_line.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_histogram.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_pie_chart.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/update_canvas_css.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/update_charts.js"></script>
+    </head>
+
+    <body>
+        <header class="header-container">
+            <right class="right">
+                <section>
+                    <p class="credits" aria-details="The credits, '&copy; Created by Henry Letellier'">&copy; Created by Henry Letellier</p>
+                    <p class="credits" aria-details="The credits, '&copy; Co-created by Harleen Singh-Kaur'">&copy; Co-created by Harleen Singh-Kaur</p>
+                </section>
+            </right>
+            <center class="center">
+                <h1>110borwein</h1>
+            </center>
+            <left class="left">
+                <p>Web version of the 110borwein project</p>
+            </left>
+        </header>
+        <main>
+            <aside aria-details=" The section in charge of delimiting the min, max and n values">
+                <section class="enable_flexbox one_liner" aria-details="The maximum value from wich to start calculating, default: 5000">
+                    <p style="margin-right: 10px;">Maximum = </p>
+                    <button class="button" type="button" onclick="decrease_spinbox('maximum');check_if_possible()" aria-label="Decrease value">-</button>
+                    <input class="input" type="number" id="maximum" name="spinbox" value="5000" min="0" max="5001" step="1" aria-label="Select a value">
+                    <button class="button" type="button" onclick="increase_spinbox('maximum');check_if_possible()" aria-label="Increase value">+</button>
+                </section>
+                <section class="enable_flexbox one_liner" aria-details="The minimum value from wich to start calculating, default: 0">
+                    <p style="margin-right: 10px;">Minimum = </p>
+                    <button class="button" type="button" onclick="decrease_spinbox('minimum');check_if_possible()" aria-label="Decrease value">-</button>
+                    <input class="input" type="number" id="minimum" name="spinbox" value="0" min="-1" max="5000" step="1" aria-label="Select a value">
+                    <button class="button" type="button" onclick="increase_spinbox('minimum');check_if_possible()" aria-label="Increase value">+</button>
+                </section>
+                <section class="enable_flexbox one_liner" aria-details="The constant defining the integral to be computed, default: 0">
+                    <p style="margin-right: 10px;">N = </p>
+                    <button class="button" type="button" onclick="decrease_spinbox('n');check_if_possible()" aria-label="Decrease value">-</button>
+                    <input class="input" type="number" id="n" name="spinbox" value="0" min="-1" max="1000" step="1" aria-label="Select a value">
+                    <button class="button" type="button" onclick="increase_spinbox('n');check_if_possible()" aria-label="Increase value">+</button>
+                </section>
+                <button class="button" type="button" onclick="check_if_possible()" aria-label="Calculate the result">Calculate</button>
+            </aside>
+            <article aria-details="The section in charge of displaying the results of the program">
+                <section aria-details="The results for the Midpoint calculations">
+                    <h2>Midpoint</h2>
+                    <table>
+                        <tr>
+                            <td>I<span id="instance_mid" aria-details="The result of the calculation after n turns">NaN</span> = <span id="midpoint_io" aria-details="The IO result for the midpoint calculations">NaN</span></td>
+                            <td>Diff = <span id="midpoint_diff" aria-details="The Diff result for the midpoint calculation">NaN</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="midpoint_lines_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="midpoint_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <section aria-details="The results for the Trapezoidal calculations">
+                    <h2>Trapezoidal</h2>
+                    <table>
+                        <tr>
+                            <td>I<span id="instance_trap" aria-details="The result of the calculation after n turns">NaN</span> = <span id="trapezoidal_io" aria-details="The IO result for the trapezoidal calculations">NaN</span></td>
+                            <td>Diff = <span id="trapezoidal_diff" aria-details="The Diff result for the trapezoidal calculation">NaN</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="trapezoidal_lines_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="trapezoidal_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <section aria-details="The results for the Simpson's calculations">
+                    <h2>Simpson's</h2>
+                    <table>
+                        <tr>
+                            <td>I<span id="instance_simp" aria-details="The result of the calculation after n turns">NaN</span> = <span id="simpson_io" aria-details="The IO result for the simpson's calculations">NaN</span></td>
+                            <td>Diff = <span id="simpson_diff" aria-details="The Diff result for the simpson's calculation">NaN</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="simpsons_line_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <canvas id="simpsons_chart" class="chart-container"></canvas>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </article>
+            <div id="data"></div>
+        </main>
+        <footer>
+            <script type="text/JavaScript" src="/files/js/auto_reload.js"></script>
+            <script type="text/JavaScript">
+                var minimum = document.getElementById("minimum").value,
+                    maximum = document.getElementById("maximum").value,
+                    n = document.getElementById("n").value;
+                add_listeners();
+                calculate_all();
+                update_charts(n, minimum, maximum);
+            </script>
+        </footer>
+    </body>
+
+</html>

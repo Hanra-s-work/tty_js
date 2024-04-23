@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+
+import sys
+from math import sqrt
+
+
+class Neutrinos:
+    """ The class in charge of calculating the neutrinos """
+
+    def __init__(self, argc: int, argv: list[str]) -> None:
+        self.argc = argc
+        self.argv = argv
+        self.error = 84
+        self.success = 0
+
+    def perror(self, string: str) -> None:
+        """ Display messages on the error output """
+        print(string, file=sys.stderr)
+
+    def display_help(self) -> None:
+        """ Display the help section """
+        print("""
+USAGE
+\t./206neutrinos n a h sd\n
+DESCRIPTION
+\tn\tnumber of values
+\ta\tarithmetic mean
+\th\tharmonic mean
+\tsd\tstandard deviation
+""")
+
+    def display_value(self, value: int, average: float, arithmetic: float, root: float, harmonic: float) -> None:
+        """ Display the calculated values """
+        print(f"    Number of values:   {value}")
+        print(f"    Standard deviation: {average:.2f}")
+        print(f"    Arithmetic mean:    {arithmetic:.2f}")
+        print(f"    Root mean square:   {root:.2f}")
+        print(f"    Harmonic mean:      {harmonic:.2f}")
+
+    def standard_deviation(self, average: float, arithmetic: float, value: int, index: int) -> float:
+        """ Calculate the standard deviation of the neutrino """
+        sum_of_squares = (
+            pow(average, 2) + pow(arithmetic, 2)
+        ) * (value - 1) + pow(index, 2)
+        mean = (
+            (arithmetic * (value - 1)) + index
+        ) / value
+        result = sqrt((sum_of_squares / value) - pow(mean, 2))
+        return result
+
+    def arithmetic_mean(self, arithmetic, value, index) -> int:
+        """ Calculate the arithmetic mean """
+        result = ((arithmetic * (value - 1)) + index) / value
+        return result
+
+    def root_mean(self, average, arithmetic, value, index):
+        """ Calculate the root mean of the neutrino """
+        sum_of_squares = (
+            pow(average, 2) + pow(arithmetic, 2)
+        ) * (value - 1) + pow(index, 2)
+        result = sqrt(sum_of_squares / value)
+        return result
+
+    def harmonic_mean(self, harmonic: float, value: float, index: int) -> float:
+        """ Calculate the harmonic mean """
+        result = value / (((1 / harmonic) * (value - 1)) + (1 / index))
+        return result
+
+    def loop_display(self, value: float, arithmetic: float, harmonic: float, average: float) -> None:
+        """ Calculate the n rounds that are required """
+        cont = True
+        while (cont is True):
+            request = input("Enter next value: ")
+            if request == "END":
+                cont = False
+                break
+            index = int(request)
+            value += 1
+            root = self.root_mean(average, arithmetic, value, index)
+            average = self.standard_deviation(
+                average,
+                arithmetic,
+                value,
+                index
+            )
+            arithmetic = self.arithmetic_mean(arithmetic, value, index)
+            harmonic = self.harmonic_mean(harmonic, value, index)
+            self.display_value(value, average, arithmetic, root, harmonic)
+        return self.success
+
+    def main(self) -> int:
+        """ The main function of the program """
+        if self.argc == 2 and self.argv[1] in (
+            "-h", "-help", "-?",
+            "--h", "--help", "--?",
+            "/h", "/help", "/?"
+        ):
+            return self.display_help()
+        elif self.argc == 5:
+            try:
+                value = int(self.argv[1])
+                arithmetic = int(self.argv[2])
+                harmonic = int(self.argv[3])
+                average = int(self.argv[4])
+                self.loop_display(value, arithmetic, harmonic, average)
+            except ValueError:
+                self.perror(
+                    "Error: Invalid argument. Arguments must be integers."
+                )
+                return self.error
+        else:
+            self.perror(
+                "Error: Invalid number of arguments. Use '-h' for help."
+            )
+            return self.error
+
+
+if __name__ == "__main__":
+    ARGV = sys.argv
+    ARGC = len(ARGV)
+    NI = Neutrinos(ARGC, ARGV)
+    sys.exit(NI.main())
