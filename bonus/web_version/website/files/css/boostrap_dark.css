@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-color: #0849b4;
     word-wrap: break-word;
     font-size: 20px;
     font-family: system-ui;
@@ -12,8 +12,6 @@ h3,
 h4,
 h5,
 h6,
-h7,
-h8,
 span,
 div,
 span,
