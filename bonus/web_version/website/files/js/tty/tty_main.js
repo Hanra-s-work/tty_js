@@ -10,23 +10,25 @@ let terminalForm = document.querySelector("#web-terminal-form"); // get input fo
 let display = function (html) {
     //write to terminal
     terminal.innerHTML += html;
+
+    terminal.scrollTop = terminal.scrollHeight;
 };
 
 let htmlElement = (element, text) => `<${element} class="tty_line_format" >${text}</${element}>`;
 
-let printf = function (string, newline = true) {
+let printf = function (string, newline = true, pre = false) {
     //format, write to terminal
     let nl = newline ? "<br>" : "";
-    var node = htmlElement("span", string);
-
+    var node = "";
+    if (!pre) {
+        node = htmlElement("span", string);
+    } else {
+        node = htmlElement("pre", string);
+    }
     display(`${node}${nl}`);
 };
 
 let fontHeight = 15;
-let cls = function () {
-    document.getElementById("web-terminal").innerHTML = "";
-};
-
 let bufferHistory = [];
 let bhIndex = 0;
 
@@ -62,6 +64,32 @@ function keyCheck(e) {
     }
 }
 
+function process_command(command) {
+    var commandParts = command.match(/(?:[^\s"]+|"[^"]*")+/g); // Split command by whitespace, preserving quoted strings
+    var usr_command = commandParts.shift(); // Extract the command name
+    var run_status = TTY_SUCCESS;
+    var commandFound = false;
+    var sanitized_command = JSON.stringify(escapeHTML(command)); // Sanitize the command to prevent XSS attacks
+    sanitized_command = sanitized_command.substring(1, sanitized_command.length - 1);
+    printf(sanitized_command, false, true);
+    for (const [commandName, commandFunction] of Object.entries(tty_available_commands)) {
+        if (usr_command === commandName) {
+            // If the command is found, execute its function
+            run_status = commandFunction(commandParts);
+            commandFound = true;
+            break;
+        }
+    }
+
+    // If command not found, print "Command not found"
+    if (!commandFound) {
+        printf(`${TTY_ERROR_STRING}Command not found`);
+        run_status = TTY_ERROR
+    }
+    tty_log(command, run_status);
+    LAST_PROGRAM_STATUS = run_status;
+}
+
 //==========
 // script.js
 //==========
@@ -69,9 +97,27 @@ function keyCheck(e) {
 var buffer; // store user input
 
 // initial message
-printf(
-    'This is a basic web REPL boilerplate. Type in the box and press enter to echo your input. Enter "clear" to clear the terminal.'
-);
+clear_log();
+var welcome_message = [
+    '      ::::::::  :::    :::     :::     :::::::::   ::::::::  :::       ::: ::::    ::: :::::::::: ::::::::::: ',
+    '    :+:    :+: :+:    :+:   :+: :+:   :+:    :+: :+:    :+: :+:       :+: :+:+:   :+: :+:            :+:      ',
+    '   +:+        +:+    +:+  +:+   +:+  +:+    +:+ +:+    +:+ +:+       +:+ :+:+:+  +:+ +:+            +:+       ',
+    '  +#++:++#++ +#++:++#++ +#++:++#++: +#+    +:+ +#+    +:+ +#+  +:+  +#+ +#+ +:+ +#+ +#++:++#       +#+        ',
+    '        +#+ +#+    +#+ +#+     +#+ +#+    +#+ +#+    +#+ +#+ +#+#+ +#+ +#+  +#+#+# +#+            +#+         ',
+    '#+#    #+# #+#    #+# #+#     #+# #+#    #+# #+#    #+#  #+#+# #+#+#  #+#   #+#+# #+#            #+#          ',
+    '########  ###    ### ###     ### #########   ########    ###   ###   ###    #### ##########     ###           ',
+    ' ',
+    'Welcome to the web terminal!',
+    'Type in the box and press enter to echo your input.',
+    'Enter "clear" to clear the terminal.',
+    'Enter "help" to display available commands.',
+    'Note: Any resemblance to real companies, people or products is purely coincidental and fictitious. We do not have any affiliation with them.',
+    'This terminal is provided as-is, without any warranty, express or implied. Use it at your own risk.'
+];
+
+for (var i = 0; i < welcome_message.length; i++) {
+    printf(welcome_message[i], false, true);
+}
 
 // handle buffer submit
 terminalForm.addEventListener("submit", function (e) {
@@ -81,10 +127,7 @@ terminalForm.addEventListener("submit", function (e) {
 
     /*============================================*/
     /* Replace this block with your submit actions */
-
-    if (buffer == "clear") cls();
-    else printf(buffer); // echo input
-
+    process_command(buffer);
     /*                                            */
     /*============================================*/
 

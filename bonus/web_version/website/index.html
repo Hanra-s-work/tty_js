@@ -65,27 +65,54 @@
                 </form>
             </div>
         </section>
-        <section class="command-history">
-            <h1>Command history:</h1>
-            <div id="input-commands">
+        <section class="command_history">
+            <h1 id="command_title">Command history:</h1>
+            <div id="input_commands">
 
             </div>
         </section>
     </main>
     <footer>
+        <!-- JS simplified operations -->
         <script type="text/JavaScript" src="/files/js/rgba_to_hex.js"></script>
-        <script type="text/JavaScript" src="/files/js/add_listeners.js"></script>
         <script type="text/JavaScript" src="/files/js/get_class_node.js"></script>
-        <script type="text/JavaScript" src="/files/js/tty/tty_main.js"></script>
+        <!-- TTY logging -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_log.js"></script>
+        <!-- TTY desing -->
         <script type="text/JavaScript" src="/files/js/tty/tty_change_colour.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_size.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_weight.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_style.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_decoration.js"></script>
-        <script type="text/JavaScript" src="/files/js/spinbox/check_if_possible.js"></script>
-        <script type="text/JavaScript" src="/files/js/spinbox/decreasse_spinbox.js"></script>
-        <script type="text/JavaScript" src="/files/js/spinbox/increase_spinbox.js"></script>
-        <script type="text/JavaScript" src="/files/js/spinbox/wrap_arround.js"></script>
+        <!-- TTY constants and globals -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_constants.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_globals.js"></script>
+        <!-- TTY commands -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
+        <!-- TTY commands -->
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_ls.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cd.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cat.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cls.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_pwd.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_env.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_help.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_date.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_echo.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_time.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_nano.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_exit.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_alert.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_uname.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_whoami.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_setenv.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_unsetenv.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_206neutrinos.js"></script>
+        <!-- The dictionnary that contains all the commands -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_available_commands.js"></script>
+        <!-- The core of the terminal -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_main.js"></script>
+        <!-- Graph drawing -->
         <script type="text/JavaScript" src="/files/js/chart_drawing/chart.js"></script>
         <script type="text/JavaScript" src="/files/js/chart_drawing/compile_names.js"></script>
         <script type="text/JavaScript" src="/files/js/chart_drawing/compile_datasets.js"></script>
@@ -94,6 +121,7 @@
         <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_pie_chart.js"></script>
         <script type="text/JavaScript" src="/files/js/chart_drawing/update_canvas_css.js"></script>
         <script type="text/JavaScript" src="/files/js/chart_drawing/update_charts.js"></script>
+        <!-- JS function to automatically refresh the page -->
         <script type="text/JavaScript" src="/files/js/auto_reload.js"></script>
         <script type="text/JavaScript">
             //auto_reload(20, false);

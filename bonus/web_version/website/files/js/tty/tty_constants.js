@@ -1,0 +1,35 @@
+/*
+** EPITECH PROJECT, 2023
+** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier [fed34_prox_vm]
+** File description:
+** tty_constants.js
+*/
+
+const TTY_SUCCESS = 0;
+const TTY_ERROR = 1;
+const TTY_EPITECH_ERROR = 84;
+const TTY_NOT_IMPLEMENTED = 255;
+const TTY_ERROR_STRING = "Error: ";
+
+// The help commands are displayed when the user types the help command
+const TTY_HELP_COMMANDS = {
+    "ls": "List directory contents",
+    "cd": "Change the shell working directory",
+    "cat": "Concatenate files and print on the standard output",
+    "pwd": "Print name of current/working directory",
+    "clear or cls": "Clear the terminal screen",
+    "whoami": "Print the user name associated with the current effective user ID",
+    "uname": "Print system information",
+    "date": "Display the current date and time",
+    "time": "Display the current time",
+    "echo": "Display a line of text",
+    "env": "Display, set, or remove environment variables",
+    "setenv": "Set an environment variable",
+    "unsetenv": "Remove an environment variable",
+    "exit": "Exit the shell",
+    "help or h or .? or .h or .help or -? or -h or -help or --? or --help or --h or man or /help or /h or /?": "Display information about available commands",
+    "make": "Compile the program",
+    "206neutrinos": "Run the program",
+    "nano": "Text editor",
+    "alert": "Display an alert message"
+};
