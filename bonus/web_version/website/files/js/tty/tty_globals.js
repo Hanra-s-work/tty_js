@@ -6,3 +6,5 @@
 */
 
 var LAST_PROGRAM_STATUS = 0;
+var PROMPT_JS_RESPONSE = "";
+var PROMPT_HTML_RESPONSE = "";

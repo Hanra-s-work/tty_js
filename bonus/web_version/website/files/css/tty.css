@@ -67,6 +67,10 @@
     margin-top: 2px;
 }
 
+.tty_line_format::placeholder {
+    color: white;
+}
+
 .button_treatment {
     flex-direction: row;
     background-color: #333;
@@ -109,4 +113,28 @@
 .button_close {
     background-color: red;
 
+}
+
+#prompt_html_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+#prompt_html_modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    padding: 20px;
+}
+
+#prompt_html_user_input {
+    width: 100%;
+    margin-bottom: 10px;
 }

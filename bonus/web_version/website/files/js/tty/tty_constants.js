@@ -10,6 +10,17 @@ const TTY_ERROR = 1;
 const TTY_EPITECH_ERROR = 84;
 const TTY_NOT_IMPLEMENTED = 255;
 const TTY_ERROR_STRING = "Error: ";
+const TTY_TAB_STRING = "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+// The help trigger token
+const TTY_HELP_TOKEN = [
+    "help", "h",
+    ".?", ".h", ".help",
+    "-?", "-h", "-help",
+    "--?", "--help", "--h",
+    "man",
+    "/help", "/h", "/?"
+];
 
 // The help commands are displayed when the user types the help command
 const TTY_HELP_COMMANDS = {
@@ -31,5 +42,7 @@ const TTY_HELP_COMMANDS = {
     "make": "Compile the program",
     "206neutrinos": "Run the program",
     "nano": "Text editor",
-    "alert": "Display an alert message"
+    "alert": "Display an alert message",
+    "prompt_js": "Display a prompt message using the default javascript prompt function",
+    "prompt_html": "Display a prompt message using a custom html prompt function"
 };

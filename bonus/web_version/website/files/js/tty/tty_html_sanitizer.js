@@ -12,3 +12,7 @@ function escapeHTML(html) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+
+function tty_html_sanitizer(html) {
+    return escapeHTML(html);
+}

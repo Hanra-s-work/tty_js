@@ -6,6 +6,6 @@
 */
 
 function tty_whoami(command) {
-    printf("root", true);
+    tty_printf("Mr. Nobody", true, false, false);
     return TTY_SUCCESS;
 }

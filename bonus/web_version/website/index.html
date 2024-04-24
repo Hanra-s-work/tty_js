@@ -29,8 +29,7 @@
     <header class="header-container">
         <right class="right">
             <section>
-                <p class="credits" aria-details="The credits, '&copy; Created by Henry Letellier'">&copy; Created by
-                    Henry Letellier</p>
+                <p class="credits" aria-details="The credits, '&copy; Created by Henry Letellier'">&copy; Created by Henry Letellier</p>
             </section>
         </right>
         <center class="center">
@@ -41,10 +40,17 @@
         </left>
     </header>
     <main>
+        <section id="prompt_html_overlay">
+            <div id="prompt_html_modal">
+                <p><span id="prompt_html_usr_input"></span>:</p>
+                <input type="text" id="prompt_html_user_input">
+                <button id="submit_btn" onclick="tty_prompt_html_handle_submit()">Submit</button>
+            </div>
+        </section>
         <section class="interractive_tty">
             <nav class="control_section">
                 <p style="padding-left: 1%;"></p>
-                <p><button type="button" class="menuButton" onclick="cls()">Clear</button></p>
+                <p><button type="button" class="menuButton" onclick="tty_cls()">Clear</button></p>
                 <p>Background: <input type="color" id="tty_background" onchange="change_colour(['web-terminal', 'web-terminal-ctn', 'web-terminal-form', 'web-terminal-input'], 'tty_background', '', false)"></p>
                 <p>Foreground: <input type="color" id="tty_foreground" onchange="change_colour('.tty_line_format', 'tty_foreground', '', true)"></p>
                 <p><input type="checkbox" id="tty_bold" onclick="tty_change_font_weight('.tty_line_format', 'tty_bold')"> Bold</p>
@@ -60,7 +66,7 @@
             <div id="web-terminal-ctn">
                 <div id="web-terminal"></div>
                 <form id="web-terminal-form">
-                    <input id="web-terminal-input" type="text" placeholder="$" autocomplete="off" autofocus />
+                    <input id="web-terminal-input" class=".tty_line_format" type="text" placeholder="$" autocomplete="off" autofocus />
                     <input type="submit" />
                 </form>
             </div>
@@ -74,21 +80,30 @@
     </main>
     <footer>
         <!-- JS simplified operations -->
+        <script type="text/JavaScript" src="/files/js/sleep.js"></script>
         <script type="text/JavaScript" src="/files/js/rgba_to_hex.js"></script>
         <script type="text/JavaScript" src="/files/js/get_class_node.js"></script>
-        <!-- TTY logging -->
-        <script type="text/JavaScript" src="/files/js/tty/tty_log.js"></script>
+        <!-- TTY preliminaries -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_html_element.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
         <!-- TTY desing -->
         <script type="text/JavaScript" src="/files/js/tty/tty_change_colour.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_size.js"></script>
-        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_weight.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_style.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_weight.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_decoration.js"></script>
         <!-- TTY constants and globals -->
-        <script type="text/JavaScript" src="/files/js/tty/tty_constants.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_globals.js"></script>
-        <!-- TTY commands -->
-        <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_constants.js"></script>
+        <!-- TTY logging/display commands -->
+        <!-- #parent functions for all displays -->
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_log.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_display.js"></script>
+        <!-- #child boilerplate functions -->
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_printf.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_perror.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_epirror.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_welcome_message.js"></script>
         <!-- TTY commands -->
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_ls.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_cd.js"></script>
@@ -107,6 +122,8 @@
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_whoami.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_setenv.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_unsetenv.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_js.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_html.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_206neutrinos.js"></script>
         <!-- The dictionnary that contains all the commands -->
         <script type="text/JavaScript" src="/files/js/tty/tty_available_commands.js"></script>

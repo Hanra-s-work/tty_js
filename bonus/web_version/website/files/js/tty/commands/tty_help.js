@@ -18,7 +18,7 @@ function tty_help(command) {
     // Handle help or variants
     for (var i = 0; i < command.length; i++) {
         command_node = command[i].trim();
-        if (["help", "h", ".?", ".h", ".help", "-?", "-h", "-help", "--?", "--help", "--h", "man", "/help", "/h", "/?"].includes(command_node)) {
+        if (TTY_HELP_TOKEN.includes(command_node)) {
             // Display brief paragraph about the help function
             printf("help [command]: Display information about available commands.");
         } else {

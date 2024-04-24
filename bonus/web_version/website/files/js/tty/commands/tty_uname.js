@@ -112,7 +112,6 @@ function tty_uname(command) {
     const machineHardware = tty_uname_get_browser(ua); // Machine hardware name
     const operatingSystem = tty_uname_get_operating_system(ua); // Operating system
     const all_in_one = `${kernelName} ${nodeName} ${kernelRelease} ${kernelVersion} ${machineHardware} ${operatingSystem}`;
-    debugger;
 
     for (var i = 0; i < command.length; i++) {
         usr_opt = command[i].trim()

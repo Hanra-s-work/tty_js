@@ -7,26 +7,8 @@ let terminal = document.querySelector("#web-terminal"); // get terminal element
 let terminalInput = document.querySelector("#web-terminal-input"); // get input element
 let terminalForm = document.querySelector("#web-terminal-form"); // get input form element
 
-let display = function (html) {
-    //write to terminal
-    terminal.innerHTML += html;
 
-    terminal.scrollTop = terminal.scrollHeight;
-};
 
-let htmlElement = (element, text) => `<${element} class="tty_line_format" >${text}</${element}>`;
-
-let printf = function (string, newline = true, pre = false) {
-    //format, write to terminal
-    let nl = newline ? "<br>" : "";
-    var node = "";
-    if (!pre) {
-        node = htmlElement("span", string);
-    } else {
-        node = htmlElement("pre", string);
-    }
-    display(`${node}${nl}`);
-};
 
 let fontHeight = 15;
 let bufferHistory = [];
@@ -96,28 +78,7 @@ function process_command(command) {
 
 var buffer; // store user input
 
-// initial message
-clear_log();
-var welcome_message = [
-    '      ::::::::  :::    :::     :::     :::::::::   ::::::::  :::       ::: ::::    ::: :::::::::: ::::::::::: ',
-    '    :+:    :+: :+:    :+:   :+: :+:   :+:    :+: :+:    :+: :+:       :+: :+:+:   :+: :+:            :+:      ',
-    '   +:+        +:+    +:+  +:+   +:+  +:+    +:+ +:+    +:+ +:+       +:+ :+:+:+  +:+ +:+            +:+       ',
-    '  +#++:++#++ +#++:++#++ +#++:++#++: +#+    +:+ +#+    +:+ +#+  +:+  +#+ +#+ +:+ +#+ +#++:++#       +#+        ',
-    '        +#+ +#+    +#+ +#+     +#+ +#+    +#+ +#+    +#+ +#+ +#+#+ +#+ +#+  +#+#+# +#+            +#+         ',
-    '#+#    #+# #+#    #+# #+#     #+# #+#    #+# #+#    #+#  #+#+# #+#+#  #+#   #+#+# #+#            #+#          ',
-    '########  ###    ### ###     ### #########   ########    ###   ###   ###    #### ##########     ###           ',
-    ' ',
-    'Welcome to the web terminal!',
-    'Type in the box and press enter to echo your input.',
-    'Enter "clear" to clear the terminal.',
-    'Enter "help" to display available commands.',
-    'Note: Any resemblance to real companies, people or products is purely coincidental and fictitious. We do not have any affiliation with them.',
-    'This terminal is provided as-is, without any warranty, express or implied. Use it at your own risk.'
-];
 
-for (var i = 0; i < welcome_message.length; i++) {
-    printf(welcome_message[i], false, true);
-}
 
 // handle buffer submit
 terminalForm.addEventListener("submit", function (e) {
@@ -127,9 +88,16 @@ terminalForm.addEventListener("submit", function (e) {
 
     /*============================================*/
     /* Replace this block with your submit actions */
-    process_command(buffer);
+    if (buffer.length > 0) {
+        process_command(buffer);
+    } else {
+        printf("", true, false, false);
+    }
     /*                                            */
     /*============================================*/
 
     terminalInput.value = "";
 });
+
+// initial message
+tty_welcome_message();
