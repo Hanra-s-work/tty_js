@@ -47,11 +47,25 @@ function keyCheck(e) {
 }
 
 function process_command(command) {
-    var commandParts = command.match(/(?:[^\s"]+|"[^"]*")+/g); // Split command by whitespace, preserving quoted strings
+    var commandParts = tty_regex_input_parsing(command, 1); // Parse the command
+    console.log(`Command parts: ${commandParts}`);
     var usr_command = commandParts.shift(); // Extract the command name
+    console.log(`Usr command: ${usr_command}`);
     var run_status = TTY_SUCCESS;
     var commandFound = false;
     var sanitized_command = JSON.stringify(escapeHTML(command)); // Sanitize the command to prevent XSS attacks
+    console.log(`Sanitized command: ${sanitized_command}`);
+    if (usr_command.includes("/") || usr_command.includes("\\")) {
+        console.log(`(bef replace) Usr command: ${usr_command}`);
+        usr_command = usr_command.replace("\\", "/");
+        console.log(`(aft replace) Usr command: ${usr_command}`);
+        console.log(`(bef split) Usr command: ${usr_command}`);
+        usr_command = usr_command.split("/");
+        console.log(`(aft split) Usr command: ${JSON.stringify(usr_command)}`);
+        console.log(`(bef node) Usr command: ${JSON.stringify(usr_command)}`);
+        usr_command = usr_command[usr_command.length - 1];
+        console.log(`(aft node) Usr command: ${usr_command}`);
+    }
     sanitized_command = sanitized_command.substring(1, sanitized_command.length - 1);
     printf(sanitized_command, false, true);
     for (const [commandName, commandFunction] of Object.entries(tty_available_commands)) {
@@ -77,8 +91,6 @@ function process_command(command) {
 //==========
 
 var buffer; // store user input
-
-
 
 // handle buffer submit
 terminalForm.addEventListener("submit", function (e) {

@@ -18,6 +18,7 @@ function tty_welcome_message() {
         '########  ###    ### ###     ### #########   ########    ###   ###   ###    #### ##########     ###           ',
         ' ',
         'Welcome to the web terminal!',
+        'This version was created by (c) Henry Letellier.',
         'Type in the box and press enter to echo your input.',
         'Enter "clear" to clear the terminal.',
         'Enter "help" to display available commands.',

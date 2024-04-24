@@ -29,7 +29,7 @@ function tty_prompt_html(question) {
     question = JSON.stringify(tty_html_sanitizer(question));
     question = question.substring(1, question.length - 1)
     console.log('Question:', question);
-    document.getElementById("prompt_html_usr_input_question").value = `${question}`;
+    document.getElementById("prompt_html_user_input_question").value = `${question}`;
     document.getElementById("prompt_html_user_input").value = "";
     tty_prompt_html_show_modal();
     if (PROMPT_HTML_RESPONSE === "") {
