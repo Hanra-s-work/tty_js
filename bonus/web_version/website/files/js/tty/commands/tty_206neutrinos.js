@@ -52,13 +52,20 @@ function tty_206neutrinos_harmonic_mean(harmonic, value, index) {
     return result;
 }
 
-function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
+async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
     let cont = true;
     var request = "";
+    var buffer_kill = 10;
     console.log("Before while");
-    while (cont === true) {
+    while (cont === true && buffer_kill > 0) {
+        buffer_kill -= 1;
         console.log("In while");
         request = tty_prompt_html("Enter next value: ");
+        while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
+            sleep(20000);
+            buffer_kill -= 1;
+            console.log("sleeping");
+        }
         console.log("After prompt");
         if (request === TTY_SUCCESS) {
             console.log("request is TTY success");
@@ -87,6 +94,19 @@ function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
     console.log("After while");
     return TTY_SUCCESS;
 }
+
+function tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average) {
+    return new Promise((resolve, reject) => {
+        tty_206neutrinos_loop_display(value, arithmetic, harmonic, average)
+            .then(response => {
+                resolve(response);
+            })
+            .catch(error => {
+                tty_epirror(error);
+                return TTY_EPITECH_ERROR;
+            });
+    });
+}
 function tty_206neutrinos_main(command) {
     var return_status = TTY_SUCCESS;
     console.log(`command.length = ${command.length}`);
@@ -106,7 +126,7 @@ function tty_206neutrinos_main(command) {
             console.log("converting average to int");
             average = parseInt(average, 10);
             console.log("converted all values to int");
-            return_status = tty_206neutrinos_loop_display(value, arithmetic, harmonic, average);
+            return_status = tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average);
             console.log("Loop display finished")
             return return_status;
         } catch (error) {
