@@ -36,6 +36,7 @@ DESCRIPTION
         print(f"    Arithmetic mean:    {arithmetic:.2f}")
         print(f"    Root mean square:   {root:.2f}")
         print(f"    Harmonic mean:      {harmonic:.2f}")
+        print()
 
     def standard_deviation(self, average: float, arithmetic: float, value: int, index: int) -> float:
         """ Calculate the standard deviation of the neutrino """

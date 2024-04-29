@@ -27,6 +27,7 @@ function tty_206neutrinos_display_value(value, average, arithmetic, root, harmon
     tty_printf(`Arithmetic mean:\t${arithmetic.toFixed(2)}`, true, false, true);
     tty_printf(`Root mean square:\t${root.toFixed(2)}`, true, false, true);
     tty_printf(`Harmonic mean:\t${harmonic.toFixed(2)}`, true, false, true);
+    tty_printf("", true, false, true);
 }
 
 function tty_206neutrinos_standard_deviation(average, arithmetic, value, index) {
@@ -58,14 +59,14 @@ async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, averag
     var buffer_kill = 10;
     console.log("Before while");
     while (cont === true && buffer_kill > 0) {
-        buffer_kill -= 1;
+        // buffer_kill -= 1;
         console.log("In while");
-        request = tty_prompt_html("Enter next value: ");
-        while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
-            sleep(20000);
-            buffer_kill -= 1;
-            console.log("sleeping");
-        }
+        request = await tty_prompt_js("Enter next value: ");
+        // while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
+        //     sleep(20000);
+        //     buffer_kill -= 1;
+        //     console.log("sleeping");
+        // }
         console.log("After prompt");
         if (request === TTY_SUCCESS) {
             console.log("request is TTY success");
