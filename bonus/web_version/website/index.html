@@ -58,9 +58,9 @@
                 <p><input type="checkbox" id="tty_underlined" onclick="tty_change_font_decoration('.tty_line_format', 'tty_underlined')"> Underlined</p>
                 <p>Font size: <input type="number" min="0" max="200" value="12" id="tty_font" onchange="tty_change_font_size('.tty_line_format', 'tty_font')">px</p>
                 <div class="button_treatment">
-                    <span><button class="button_hide">_</button></span>
+                    <span><button class="button_hide" onclick="hide_tty('interractive_tty')">_</button></span>
                     <span><button class="button_full_screen">&square;</button></span>
-                    <span><button class="button_close" onclick="hide_tty('interractive_tty')">X</button></span>
+                    <span><button class="button_close" onclick="await tty_exit(0)">X</button></span>
                 </div>
             </nav>
             <div id="web-terminal-ctn">
@@ -81,8 +81,10 @@
     <footer>
         <!-- JS simplified operations -->
         <script type="text/JavaScript" src="/files/js/sleep.js"></script>
+        <script type="text/JavaScript" src="/files/js/copyright.js"></script>
         <script type="text/JavaScript" src="/files/js/rgba_to_hex.js"></script>
         <script type="text/JavaScript" src="/files/js/get_class_node.js"></script>
+        <script type="text/JavaScript" src="/files/js/cookie_dealing.js"></script>
         <!-- TTY preliminaries -->
         <script type="text/JavaScript" src="/files/js/tty/tty_html_element.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
@@ -94,6 +96,7 @@
         <script type="text/JavaScript" src="/files/js/tty/tty_change_font_decoration.js"></script>
         <!-- TTY constants and globals -->
         <script type="text/JavaScript" src="/files/js/tty/tty_globals.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_core_vars.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_constants.js"></script>
         <!-- TTY logging/display commands -->
         <!-- #parent functions for all displays -->
@@ -104,6 +107,8 @@
         <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_perror.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_epirror.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_welcome_message.js"></script>
+        <!-- TTY small functions re-implementation -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_randint.js"></script>
         <!-- TTY commands -->
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_ls.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_cd.js"></script>
@@ -112,6 +117,7 @@
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_pwd.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_env.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_help.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_joke.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_date.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_echo.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_time.js"></script>
