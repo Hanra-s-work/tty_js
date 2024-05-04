@@ -5,6 +5,6 @@
 ** tty_cd.js
 */
 
-function tty_cd(command) {
+async function tty_cd(command) {
     return TTY_SUCCESS;
 }

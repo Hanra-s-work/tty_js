@@ -5,6 +5,6 @@
 ** tty_pwd.js
 */
 
-function tty_pwd(command) {
+async function tty_pwd(command) {
     return TTY_SUCCESS;
 }

@@ -53,31 +53,89 @@ function tty_206neutrinos_harmonic_mean(harmonic, value, index) {
     return result;
 }
 
-async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
+// async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
+//     let cont = true;
+//     var request = "";
+//     var buffer_kill = 10;
+//     console.log("Before while");
+//     while (cont === true && buffer_kill > 0) {
+//         PROMPT_JS_RESPONSE = "";
+//         PROMPT_HTML_RESPONSE = "";
+//         // buffer_kill -= 1;
+//         console.log("In while");
+//         request = await tty_prompt_js("Enter next value: ");
+//         // while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
+//         //     sleep(20000);
+//         //     buffer_kill -= 1;
+//         //     console.log("sleeping");
+//         // }
+//         console.log(`request = ${request}, PROMPT_JS_RESPONSE = ${PROMPT_JS_RESPONSE}, PROMPT_HTML_RESPONSE = ${PROMPT_HTML_RESPONSE}`);
+//         console.log("After prompt");
+//         if (request === TTY_SUCCESS) {
+//             console.log("request is TTY success");
+//             if (PROMPT_JS_RESPONSE != "") {
+//                 request = PROMPT_JS_RESPONSE;
+//             } else {
+//                 request = PROMPT_HTML_RESPONSE;
+//             }
+//         } else {
+//             request = "";
+//             console.log("request is not TTY succes");
+//             continue;
+//         }
+//         if (request.trim() === "END") {
+//             console.log("request is END");
+//             tty_log("User entered END", TTY_SUCCESS);
+//             cont = false;
+//             break;
+//         }
+//         console.log("rest of loop");
+//         value += 1;
+//         const index = parseInt(request, 10);
+//         const root = tty_206neutrinos_root_mean(average, arithmetic, value, index);
+//         average = tty_206neutrinos_standard_deviation(average, arithmetic, value, index);
+//         arithmetic = tty_206neutrinos_arithmetic_mean(arithmetic, value, index);
+//         harmonic = tty_206neutrinos_harmonic_mean(harmonic, value, index);
+//         console.log("going to display content");
+//         tty_206neutrinos_display_value(value, average, arithmetic, root, harmonic);
+//         console.log("content displayed");
+//     }
+//     console.log("After while");
+//     return TTY_SUCCESS;
+// }
+function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
     let cont = true;
     var request = "";
     var buffer_kill = 10;
     console.log("Before while");
     while (cont === true && buffer_kill > 0) {
+        PROMPT_JS_RESPONSE = "";
+        PROMPT_HTML_RESPONSE = "";
         // buffer_kill -= 1;
         console.log("In while");
-        request = await tty_prompt_js("Enter next value: ");
+        request = tty_prompt_js_friendly("Enter next value: ");
         // while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
         //     sleep(20000);
         //     buffer_kill -= 1;
         //     console.log("sleeping");
         // }
+        console.log(`request = ${request}, PROMPT_JS_RESPONSE = ${PROMPT_JS_RESPONSE}, PROMPT_HTML_RESPONSE = ${PROMPT_HTML_RESPONSE}`);
         console.log("After prompt");
         if (request === TTY_SUCCESS) {
             console.log("request is TTY success");
-            request = PROMPT_HTML_RESPONSE;
+            if (PROMPT_JS_RESPONSE != "") {
+                request = PROMPT_JS_RESPONSE;
+            } else {
+                request = PROMPT_HTML_RESPONSE;
+            }
         } else {
             request = "";
             console.log("request is not TTY succes");
             continue;
         }
-        if (request === "END") {
+        if (request.trim() === "END") {
             console.log("request is END");
+            tty_log("User entered END", TTY_SUCCESS);
             cont = false;
             break;
         }
@@ -96,18 +154,19 @@ async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, averag
     return TTY_SUCCESS;
 }
 
-function tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average) {
-    return new Promise((resolve, reject) => {
-        tty_206neutrinos_loop_display(value, arithmetic, harmonic, average)
-            .then(response => {
-                resolve(response);
-            })
-            .catch(error => {
-                tty_epirror(error);
-                return TTY_EPITECH_ERROR;
-            });
-    });
-}
+// function tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average) {
+//     return new Promise((resolve, reject) => {
+//         tty_206neutrinos_loop_display(value, arithmetic, harmonic, average)
+//             .then(response => {
+//                 resolve(response);
+//                 return TTY_SUCCESS;
+//             })
+//             .catch(error => {
+//                 tty_epirror(error);
+//                 return TTY_EPITECH_ERROR;
+//             });
+//     });
+// }
 function tty_206neutrinos_main(command) {
     var return_status = TTY_SUCCESS;
     console.log(`command.length = ${command.length}`);
@@ -127,7 +186,8 @@ function tty_206neutrinos_main(command) {
             console.log("converting average to int");
             average = parseInt(average, 10);
             console.log("converted all values to int");
-            return_status = tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average);
+            // return_status = tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average);
+            return_status = tty_206neutrinos_loop_display(value, arithmetic, harmonic, average);
             console.log("Loop display finished")
             return return_status;
         } catch (error) {
@@ -140,7 +200,7 @@ function tty_206neutrinos_main(command) {
     }
 }
 
-function tty_epitech_206neutrinos_start_stop_message(command) {
+async function tty_epitech_206neutrinos_start_stop_message(command) {
     var return_status = TTY_SUCCESS;
     tty_printf("206neutrinos - An Epitech program", true, false);
     tty_log("Entered Epitech program 206neutrinos", TTY_SUCCESS);

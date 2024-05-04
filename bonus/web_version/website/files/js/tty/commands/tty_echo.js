@@ -5,7 +5,7 @@
 ** tty_echo.js
 */
 
-function tty_echo(command) {
+async function tty_echo(command) {
     var args = command.split(' ');
     var i = 1;
     var str = "";

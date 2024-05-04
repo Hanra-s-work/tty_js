@@ -45,5 +45,6 @@ const TTY_HELP_COMMANDS = {
     "alert": "Display an alert message",
     "prompt_js": "Display a prompt message using the default javascript prompt function",
     "prompt_html": "Display a prompt message using a custom html prompt function",
-    "reboot": "Reboot the terminal (refresh the page)"
+    "reboot": "Reboot the terminal (refresh the page)",
+    "joke": "Display a joke"
 };

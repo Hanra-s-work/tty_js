@@ -5,7 +5,7 @@
 ** tty_time.js
 */
 
-function tty_time(command) {
+async function tty_time(command) {
     var date = new Date();
     var hours = date.getHours();
     var minutes = date.getMinutes();

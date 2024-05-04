@@ -5,7 +5,7 @@
 ** tty_exit.js
 */
 
-function tty_exit(command) {
+async function tty_exit(command = "") {
     document.getElementById("web-terminal").disabled = true;
     document.getElementById("web-terminal-form").ariaDisabled(true);
     document.getElementById("web-terminal-form").ariaHidden(true);

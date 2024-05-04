@@ -8,7 +8,9 @@
 function tty_to_html(html) {
     return html.replace(/\t/g, TTY_TAB_STRING)
         .replace(/\n/g, "<br>")
-        .replace(/\0/g, "<br>");
+        .replace(/\0/g, "<br>")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
     // .replace(/\a/g, "(bell)")
     // .replace(/    /g, TTY_TAB_STRING)
     // .replace(/ /g, "&nbsp;")

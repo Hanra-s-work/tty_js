@@ -5,7 +5,7 @@
 ** tty_alert.js
 */
 
-function tty_alert(command) {
+async function tty_alert(command) {
     var sanitized_string = "";
     for (let i = 0; i < command.length; i++) {
         if (command[i] === "-h") {

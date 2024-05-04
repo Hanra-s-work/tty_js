@@ -4,7 +4,7 @@
 ** File description:
 ** tty_help.js
 */
-function tty_help(command) {
+async function tty_help(command) {
     var global_status = TTY_SUCCESS;
     var command_node = "";
     // Handle no arguments provided

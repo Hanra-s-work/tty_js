@@ -98,7 +98,7 @@ function tty_uname_help() {
     printf("Full documentation <https://www.gnu.org/software/coreutils/uname>", true);
     printf("or available locally via: info '(coreutils) uname invocation'", true);
 }
-function tty_uname(command) {
+async function tty_uname(command) {
     if (command.length === 0) {
         command.push("-a"); // If no option provided, default to -a
     }

@@ -5,7 +5,7 @@
 ** tty_reboot.js
 */
 
-function tty_reboot(command) {
+async function tty_reboot(command) {
     tty_printf("Rebooting in 5 seconds...", true, false, false);
     auto_reload(5, true);
     return TTY_SUCCESS;

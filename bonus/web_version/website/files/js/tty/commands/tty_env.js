@@ -5,6 +5,12 @@
 ** tty_env.js
 */
 
-function tty_env(command) {
-    return TTY_SUCCESS;
+async function tty_env(command) {
+    if (command.length > 1) {
+        tty_printf("env: too many arguments", true, false, false);
+        return TTY_ERROR;
+    }
+    for (let key in TTY_ENV) {
+        tty_printf(key + "=" + TTY_ENV[key], true, false, true);
+    }
 }

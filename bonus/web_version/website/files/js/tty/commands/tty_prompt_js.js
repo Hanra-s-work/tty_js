@@ -5,7 +5,7 @@
 ** tty_prompt_js.js
 */
 
-function tty_prompt_js(question = "Sample question") {
+async function tty_prompt_js(question = "Sample question") {
     console.log("tty_prompt_js");
     var answer = prompt(question);
     console.log("answer: ", answer);
@@ -19,15 +19,3 @@ function tty_prompt_js(question = "Sample question") {
     return TTY_SUCCESS;
 }
 
-function tty_prompt_js_friendly(question = "Sample question") {
-    return new Promise((resolve, reject) => {
-        tty_prompt_js(question)
-            .then(response => {
-                resolve(response);
-            })
-            .catch(error => {
-                tty_epirror(error);
-                return TTY_EPITECH_ERROR;
-            });
-    });
-}

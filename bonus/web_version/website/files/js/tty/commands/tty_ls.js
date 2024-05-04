@@ -5,19 +5,21 @@
 ** tty_ls.js
 */
 
-function tty_ls(command) {
-    var files = [
-        ".",
-        "..",
-        "README.md",
-        "bonus",
-        "include",
-        "lib",
-        "main.c",
-        "src"
-    ];
-    for (var i = 0; i < files.length; i++) {
-        printf(files[i], true);
+var directory_architecture = {
+    "include": [
+        "my.h"
+    ],
+    "lib": [
+        "libmy.a"
+    ],
+    "src": [
+        "main.c"
+    ]
+};
+
+async function tty_ls(command) {
+    for (var i = 0; i < directory_architecture["include"].length; i++) {
+        printf(files["include"][i], true);
     }
     return TTY_SUCCESS;
 }

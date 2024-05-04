@@ -5,6 +5,6 @@
 ** tty_cat.js
 */
 
-function tty_cat(command) {
+async function tty_cat(command) {
     return TTY_SUCCESS;
 }

@@ -28,10 +28,30 @@ function tty_prompt_html_handle_submit() {
     document.getElementById('prompt_html_overlay').style.display = 'none';
 }
 
-async function tty_prompt_html(question = "Sample question") {
+// async function tty_prompt_html(question = "Sample question") {
+//     PROMPT_HTML_RESPONSE = "";
+//     HTML_BUTTON_CLICKED = false;
+//     question = JSON.stringify(tty_html_sanitizer(question));
+//     question = question.substring(1, question.length - 1)
+//     console.log('Question:', question);
+//     document.getElementById("prompt_html_user_input_question").innerText = `${question}`;
+//     console.log("prompt_html_user_input_question");
+//     document.getElementById("prompt_html_user_input").value = "";
+//     console.log("prompt_html_user_input");
+//     document.getElementById('prompt_html_overlay').style.display = 'block';
+//     // tty_prompt_html_show_modal();
+//     console.log("tty_prompt_html_show_modal");
+//     if (PROMPT_HTML_RESPONSE === "") {
+//         console.log(`PROMPT_HTML_RESPONSE: ${PROMPT_HTML_RESPONSE}`);
+//         return TTY_ERROR;
+//     }
+//     console.log('Question:', question);
+//     return TTY_SUCCESS;
+// }
+function tty_prompt_html(question = "Sample question") {
     PROMPT_HTML_RESPONSE = "";
     HTML_BUTTON_CLICKED = false;
-    question = JSON.stringify(tty_html_sanitizer(question));
+    question = JSON.stringify(tty_html_sanitizer(`${question}`));
     question = question.substring(1, question.length - 1)
     console.log('Question:', question);
     document.getElementById("prompt_html_user_input_question").innerText = `${question}`;
@@ -41,20 +61,13 @@ async function tty_prompt_html(question = "Sample question") {
     document.getElementById('prompt_html_overlay').style.display = 'block';
     // tty_prompt_html_show_modal();
     console.log("tty_prompt_html_show_modal");
+    // while (HTML_BUTTON_CLICKED === false) {
+    //     console.log("Waiting for HTML button click");
+    // }
     if (PROMPT_HTML_RESPONSE === "") {
         console.log(`PROMPT_HTML_RESPONSE: ${PROMPT_HTML_RESPONSE}`);
         return TTY_ERROR;
     }
     console.log('Question:', question);
     return TTY_SUCCESS;
-}
-
-function tty_prompt_html_friendly(question = "Sample question") {
-    return new Promise((resolve, reject) => {
-        tty_prompt_html(question).then(response => {
-            resolve(response);
-        }).catch(error => {
-            reject(error);
-        });
-    });
 }

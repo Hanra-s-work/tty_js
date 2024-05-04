@@ -46,7 +46,7 @@ function keyCheck(e) {
     }
 }
 
-function process_command(command) {
+async function process_command(command) {
     var commandParts = tty_regex_input_parsing(command, 1); // Parse the command
     console.log(`Command parts: ${commandParts}`);
     var usr_command = commandParts.shift(); // Extract the command name
@@ -71,7 +71,7 @@ function process_command(command) {
     for (const [commandName, commandFunction] of Object.entries(tty_available_commands)) {
         if (usr_command === commandName) {
             // If the command is found, execute its function
-            run_status = commandFunction(commandParts);
+            run_status = await commandFunction(commandParts);
             commandFound = true;
             break;
         }
