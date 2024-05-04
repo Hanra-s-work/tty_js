@@ -53,57 +53,7 @@ function tty_206neutrinos_harmonic_mean(harmonic, value, index) {
     return result;
 }
 
-// async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
-//     let cont = true;
-//     var request = "";
-//     var buffer_kill = 10;
-//     console.log("Before while");
-//     while (cont === true && buffer_kill > 0) {
-//         PROMPT_JS_RESPONSE = "";
-//         PROMPT_HTML_RESPONSE = "";
-//         // buffer_kill -= 1;
-//         console.log("In while");
-//         request = await tty_prompt_js("Enter next value: ");
-//         // while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
-//         //     sleep(20000);
-//         //     buffer_kill -= 1;
-//         //     console.log("sleeping");
-//         // }
-//         console.log(`request = ${request}, PROMPT_JS_RESPONSE = ${PROMPT_JS_RESPONSE}, PROMPT_HTML_RESPONSE = ${PROMPT_HTML_RESPONSE}`);
-//         console.log("After prompt");
-//         if (request === TTY_SUCCESS) {
-//             console.log("request is TTY success");
-//             if (PROMPT_JS_RESPONSE != "") {
-//                 request = PROMPT_JS_RESPONSE;
-//             } else {
-//                 request = PROMPT_HTML_RESPONSE;
-//             }
-//         } else {
-//             request = "";
-//             console.log("request is not TTY succes");
-//             continue;
-//         }
-//         if (request.trim() === "END") {
-//             console.log("request is END");
-//             tty_log("User entered END", TTY_SUCCESS);
-//             cont = false;
-//             break;
-//         }
-//         console.log("rest of loop");
-//         value += 1;
-//         const index = parseInt(request, 10);
-//         const root = tty_206neutrinos_root_mean(average, arithmetic, value, index);
-//         average = tty_206neutrinos_standard_deviation(average, arithmetic, value, index);
-//         arithmetic = tty_206neutrinos_arithmetic_mean(arithmetic, value, index);
-//         harmonic = tty_206neutrinos_harmonic_mean(harmonic, value, index);
-//         console.log("going to display content");
-//         tty_206neutrinos_display_value(value, average, arithmetic, root, harmonic);
-//         console.log("content displayed");
-//     }
-//     console.log("After while");
-//     return TTY_SUCCESS;
-// }
-function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
+async function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
     let cont = true;
     var request = "";
     var buffer_kill = 10;
@@ -113,12 +63,7 @@ function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
         PROMPT_HTML_RESPONSE = "";
         // buffer_kill -= 1;
         console.log("In while");
-        request = tty_prompt_js_friendly("Enter next value: ");
-        // while (HTML_BUTTON_CLICKED === false && buffer_kill > 0) {
-        //     sleep(20000);
-        //     buffer_kill -= 1;
-        //     console.log("sleeping");
-        // }
+        request = await tty_prompt_js("Enter next value: ");
         console.log(`request = ${request}, PROMPT_JS_RESPONSE = ${PROMPT_JS_RESPONSE}, PROMPT_HTML_RESPONSE = ${PROMPT_HTML_RESPONSE}`);
         console.log("After prompt");
         if (request === TTY_SUCCESS) {
@@ -154,20 +99,7 @@ function tty_206neutrinos_loop_display(value, arithmetic, harmonic, average) {
     return TTY_SUCCESS;
 }
 
-// function tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average) {
-//     return new Promise((resolve, reject) => {
-//         tty_206neutrinos_loop_display(value, arithmetic, harmonic, average)
-//             .then(response => {
-//                 resolve(response);
-//                 return TTY_SUCCESS;
-//             })
-//             .catch(error => {
-//                 tty_epirror(error);
-//                 return TTY_EPITECH_ERROR;
-//             });
-//     });
-// }
-function tty_206neutrinos_main(command) {
+async function tty_206neutrinos_main(command) {
     var return_status = TTY_SUCCESS;
     console.log(`command.length = ${command.length}`);
     if (command.length === 1 && TTY_HELP_TOKEN.includes(command[0])) {
@@ -186,8 +118,7 @@ function tty_206neutrinos_main(command) {
             console.log("converting average to int");
             average = parseInt(average, 10);
             console.log("converted all values to int");
-            // return_status = tty_206neutrinos_desync_loop_display(value, arithmetic, harmonic, average);
-            return_status = tty_206neutrinos_loop_display(value, arithmetic, harmonic, average);
+            return_status = await tty_206neutrinos_loop_display(value, arithmetic, harmonic, average);
             console.log("Loop display finished")
             return return_status;
         } catch (error) {
@@ -206,7 +137,7 @@ async function tty_epitech_206neutrinos_start_stop_message(command) {
     tty_log("Entered Epitech program 206neutrinos", TTY_SUCCESS);
     tty_printf(`Success statuses = ${TTY_SUCCESS} Error statuses = ${TTY_EPITECH_ERROR}`, true, false);
     tty_log(`Success statuses = ${TTY_SUCCESS} Error statuses = ${TTY_EPITECH_ERROR}`, TTY_SUCCESS);
-    return_status = tty_206neutrinos_main(command);
+    return_status = await tty_206neutrinos_main(command);
     tty_log("Exited Epitech program 206neutrinos", TTY_SUCCESS);
     tty_printf(`Success statuses = ${TTY_SUCCESS} Error statuses = ${TTY_ERROR}`, true, false);
     tty_log(`Success statuses = ${TTY_SUCCESS} Error statuses = ${TTY_ERROR}`, TTY_SUCCESS);

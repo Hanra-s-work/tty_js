@@ -47,6 +47,10 @@
                 <button id="submit_btn" onclick="tty_prompt_html_handle_submit()">Submit</button>
             </div>
         </section>
+        <section id="tty_reload" style="display:flex;flex-direction:row;">
+            <p>tty system management: </p>
+            <p><button onclick="document.getElementById('web-terminal-input').disabled = false;document.getElementById('web-terminal-input').placeholder = '$';">Re-enable tty</button></p>
+        </section>
         <section class="interractive_tty">
             <nav class="control_section">
                 <p style="padding-left: 1%;"></p>

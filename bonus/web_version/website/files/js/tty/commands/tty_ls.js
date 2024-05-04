@@ -19,7 +19,7 @@ var directory_architecture = {
 
 async function tty_ls(command) {
     for (var i = 0; i < directory_architecture["include"].length; i++) {
-        printf(files["include"][i], true);
+        printf(directory_architecture["include"][i], true);
     }
     return TTY_SUCCESS;
 }

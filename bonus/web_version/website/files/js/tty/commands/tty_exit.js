@@ -6,8 +6,7 @@
 */
 
 async function tty_exit(command = "") {
-    document.getElementById("web-terminal").disabled = true;
-    document.getElementById("web-terminal-form").ariaDisabled(true);
-    document.getElementById("web-terminal-form").ariaHidden(true);
+    document.getElementById("web-terminal-input").disabled = true;
+    document.getElementById("web-terminal-input").placeholder = "Input is disabled";
     return TTY_SUCCESS;
 }
