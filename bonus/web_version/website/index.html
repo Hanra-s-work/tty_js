@@ -77,14 +77,19 @@
 
             </div>
         </section>
+        <section id="copyright_info"></section>
+        <section id="cookie_padding">
+            <inform id="inform_cookie"></inform>
+        </section>
     </main>
     <footer>
         <!-- JS simplified operations -->
         <script type="text/JavaScript" src="/files/js/sleep.js"></script>
         <script type="text/JavaScript" src="/files/js/copyright.js"></script>
+        <script type="text/JavaScript" src="/files/js/add_inform.js"></script>
         <script type="text/JavaScript" src="/files/js/rgba_to_hex.js"></script>
         <script type="text/JavaScript" src="/files/js/get_class_node.js"></script>
-        <script type="text/JavaScript" src="/files/js/cookie_dealing.js"></script>
+        <script type="text/JavaScript" src="/files/js/cookie_dealing.js" type="module"></script>
         <!-- TTY preliminaries -->
         <script type="text/JavaScript" src="/files/js/tty/tty_html_element.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
@@ -186,6 +191,8 @@
             document.getElementById("tty_bold").checked = tty_bold_bool;
             document.getElementById("tty_italic").checked = tty_italic_bool;
             document.getElementById("tty_underlined").checked = tty_underline_bool;
+            copyright("copyright_info");
+            add_inform("inform_cookie");
         </script>
     </footer>
 </body>

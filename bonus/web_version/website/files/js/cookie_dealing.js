@@ -84,19 +84,6 @@ function count_all_cookies() {
 
 console.log("js/cookie_dealing initialised");
 
-export {
-    createMany,
-    create,
-    read,
-    remove,
-    createManyCookie,
-    createCookie,
-    readCookie,
-    removeCookie,
-    clear_all_cookies,
-    count_all_cookies
-}
-
 window.cookie = {
     createMany,
     create,
