@@ -21,7 +21,6 @@ function tty_remove_variables(command) {
 }
 
 async function tty_unsetenv(command) {
-    var found = false;
     if (command.length < 1) {
         tty_printf("unsetenv: Too few arguments.", true, false, false);
         return TTY_ERROR;
