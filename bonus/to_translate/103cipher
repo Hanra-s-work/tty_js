@@ -1,0 +1,211 @@
+#!/usr/bin/python3
+
+import sys
+import math
+
+def exit_prog(code: int) -> None:
+    sys.exit(code)
+
+def error_exit(string: str) -> None:
+    print(string)
+    exit_prog(84)
+
+def error_handling(ac: int, args: str) -> int:
+    if  ac == 2 and args[1] == "-h":
+        print("USAGE")
+        print("    ./103cipher message key flag")
+        print("")
+        print("DESCRIPTION")
+        print("    message     a message, made of ASCII characters")
+        print("    key         the encryption key, made of ASCII characters")
+        print("    flag        0 for the message to be encrypted, 1 to be decrypted")
+    elif ac != 4:
+        error_exit("Invalid args !\nSee ./103cipher -h")
+    else:
+        flag = args[3]
+        if is_int(args[3]) == False:
+            error_exit("The flag is not a int !")
+        elif int(flag) != 0 and int(flag) != 1:
+            error_exit("The flag must be 0 or 1")
+        elif args[1] == "":
+            error_exit("The message is empty")
+        elif args[2] == "":
+            error_exit("The key is empty")
+        else:
+            return int(flag)
+    return exit_prog(0)
+
+def is_int(element: str) -> bool:
+    try:
+        int(element)
+        return True
+    except ValueError:
+        return False
+
+def product_matrix(matrix_key: list, matrix: list, size: int) -> list:
+    matrix_k = []
+    key_mat_len = len(matrix_key)
+    for i in range(len(matrix) * size):
+        if i % size == 0:
+            matrix_k.append([0] * size)
+        for j in range(key_mat_len):
+            matrix_k[int(i / size)][i % size] += matrix_key[j][i % size] * matrix[int(i / size)][j]
+    return matrix_k
+
+def str_to_matrix(string: str, sizet: int):
+    strlen = len(string)
+    size = math.ceil(strlen ** 0.5)
+    matrix = []
+    t = size if not sizet else sizet
+    for i in range(size if not sizet else math.ceil(strlen / t)):
+        matrix.append([0] * t)
+        for x in range(t):
+            p = (i * t) + x
+            matrix[i][x] = 0 if p >= strlen else ord(string[p])
+    return (matrix, size)
+
+def encrypted_msg_to_matrix(msg: str, size: int) -> list:
+    data_list = list(map(int, msg.split()))
+    matrix = []
+    y = 0
+    x = 0
+    for e in data_list:
+        if x == size:
+            x = 0
+            y += 1
+        if x == 0:
+            matrix.append([0] * size)
+        matrix[y][x] = e
+        x += 1
+    return matrix
+
+def transpose(matrix :list) -> list:
+    new_matrix = []
+    len_mat = len(matrix)
+    for i in range(len_mat ** 2):
+        if i % len_mat == 0:
+            new_matrix.append([0] * len_mat)
+            for j in range(len_mat):
+                new_matrix[int(i / len_mat)][j] = matrix[j][int(i / len_mat)]
+    return new_matrix
+
+def get_matrix_determinant(matrix: list) -> int:
+    width = len(matrix)
+    if width == 1:
+        return matrix[0][0]
+    elif width == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    elif width == 3:
+        return (
+            matrix[0][0] * matrix[1][1] * matrix[2][2] +
+            matrix[0][1] * matrix[1][2] * matrix[2][0] +
+            matrix[0][2] * matrix[1][0] * matrix[2][1] -
+            matrix[0][2] * matrix[1][1] * matrix[2][0] +
+            matrix[0][0] * matrix[1][2] * matrix[2][1] +
+            matrix[0][1] * matrix[1][0] * matrix[2][2]
+        )
+
+def cofactors2(matrix: list) -> list:
+    if len(matrix) == 1:
+        return matrix
+    elif len(matrix) == 2:
+        det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        if det == 0:
+            exit_prog(84)
+        else:
+            return [[matrix[1][1], -matrix[0][1]], [-matrix[1][0], matrix[0][0]]]
+    else:
+        matrix_co = [[0] * 9]
+        matrix_co.append([matrix[1][1], matrix[1][2], matrix[2][1], matrix[2][2]])
+        matrix_co.append([matrix[1][0], matrix[1][2], matrix[2][0], matrix[2][2]])
+        matrix_co.append([matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]])
+        matrix_co.append([matrix[0][1], matrix[0][2], matrix[2][1], matrix[2][2]])
+        matrix_co.append([matrix[0][0], matrix[0][2], matrix[2][0], matrix[2][2]])
+        matrix_co.append([matrix[0][0], matrix[0][1], matrix[2][0], matrix[2][1]])
+        matrix_co.append([matrix[0][1], matrix[0][2], matrix[1][1], matrix[1][2]])
+        matrix_co.append([matrix[0][0], matrix[0][2], matrix[1][0], matrix[1][2]])
+        matrix_co.append([matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]])
+        j = 1;
+        for i in range(9):
+            matrix[int(i / 3)][i % 3] = j * (matrix_co[i][0] * matrix_co[i][3] - matrix_co[i][1] * matrix_co[i][2])
+            j *= -1;
+        return matrix
+
+def cofactors(matrix: list) -> list:
+    if len(matrix) == 1:
+        return matrix
+    elif len(matrix) == 2:
+        det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        if det == 0:
+            exit_prog(84)
+        else:
+            return [[matrix[1][1], -matrix[0][1]], [-matrix[1][0], matrix[0][0]]]
+    else:
+        sign = 1
+        matrix_co = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                mini_matrix = [row[: j] + row[j + 1 :] for row in (matrix[: i] + matrix[i + 1 :])]
+                cofactor = sign * get_matrix_determinant(mini_matrix)
+                matrix_co.append(cofactor)
+                sign *= -1
+        matrix_co = [matrix_co[i : i + len(matrix)] for i in range(0, len(matrix_co), len(matrix))]
+        return matrix_co
+
+def inverse(matrix: list) -> list:
+    matrix_t = cofactors(matrix)
+    det = 0
+    for i in range(len(matrix_t[0])):
+        det += matrix[0][i] * matrix_t[0][i]
+    for i in range(len(matrix_t)):
+        for j in range(len(matrix_t[i])):
+            matrix_t[i][j] /= det
+    return transpose(matrix_t)
+
+def dek_matrix(enk_message: str, key: str) -> None:
+    key_cal = str_to_matrix(key, 0)
+    matrix_key_size = key_cal[1]
+    matrix_key = key_cal[0]
+    if matrix_key_size > 3:
+        exit_prog(0)
+    matrix_invers = inverse(matrix_key)
+    matrix = encrypted_msg_to_matrix(enk_message, matrix_key_size)
+    matrix_f = product_matrix(matrix_invers, matrix, matrix_key_size)
+    print("Key matrix:")
+    for i in matrix_invers:
+        print("\t".join(str(round(x, 3) if not round(x, 3) == -0.0 else 0.0) for x in i))
+    print("\nDecrypted message:")
+    count = 0
+    matrix_f_len = len(matrix_f)
+    for i in matrix_f:
+        print("".join(str(chr(round(x))) for x in i), end="\n" if matrix_f_len - 1 == count else "")
+        count += 1
+
+def enk_matrix(message: str, key: str) -> None:
+    key_cal = str_to_matrix(key, 0)
+    matrix_key_size = key_cal[1]
+    matrix_key = key_cal[0]
+    matrix_msg = str_to_matrix(message, matrix_key_size)[0]
+    matrix_k = product_matrix(matrix_key, matrix_msg, matrix_key_size)
+    print("Key matrix:")
+    for i in matrix_key:
+        print("\t".join(str(x) for x in i))
+    print("\nEncrypted message:")
+    count = 0
+    matrix_k_len = len(matrix_k)
+    for i in matrix_k:
+        print(" ".join(str(x) for x in i), end="\n" if matrix_k_len - 1 == count else " ")
+        count += 1
+
+def main() -> int:
+    args = sys.argv
+    ac = len(args)
+
+    flag = error_handling(ac, args)
+    if not flag:
+        enk_matrix(args[1], args[2])
+    else:
+        dek_matrix(args[1], args[2])
+    exit_prog(0)
+
+main()

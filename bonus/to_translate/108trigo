@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 107transfer
+## File description:
+## Compute growth rate
+##
+
+import sys
+import math
+
+NB_IT = 100
+
+def help() -> None:
+    print("USAGE")
+    print("    ./108trigo fun a0 a1 a2 ...")
+    print("DESCRIPTION")
+    print("    fun     function to be applied, among at least "
+        "\"EXP\", \"COS\", \"SIN\", \"COSH\"")
+    print("            and \"SINH\"")
+    print("    ai      coeficients of the matrix")
+    sys.exit(0)
+
+def error_exit() -> None:
+    print("Invalid args !\n\nSee ./108trigo --help")
+    sys.exit(84)
+
+def check_entry(ac: int, av: list) -> int:
+    if ac == 1 and (av[0] == "-h" or av[0] == "--help"):
+        help()
+    if ac < 2 or int(math.sqrt(ac - 1)) ** 2 != ac - 1:
+        error_exit()
+    cat = ["EXP", "COS", "SIN", "COSH", "SINH"]
+    chars = "-0123456789."
+    if av[0] not in cat:
+        error_exit()
+    for str in [av[i + 1] for i in range(len(av) - 1)]:
+        if len(str) == 0 or str[0] == '.' or str[-1] == '.':
+            error_exit()
+        is_point = False
+        for i in range(len(str)):
+            if (str[i] not in chars or (str[i] == '-' and i != 0)
+                or (str[i] == '.' and is_point)):
+                error_exit()
+            is_point = True if str[i] == '.' else is_point
+    return cat.index(av[0])
+
+def create_mat(ac: int, av: list) -> list:
+    len_mat = int(math.sqrt(ac))
+    mat = [[] for _ in range(len_mat)]
+    for i in range(ac):
+        mat[int(i / len_mat)].append(int(av[i]))
+    return mat
+
+def get_identity_mat(n: int) -> list:
+    mat = [[] for _ in range(n)]
+    for i in range(n * n):
+        mat[int(i / n)].append(0)
+        if i % (n + 1) == 0:
+            mat[int(i / n)][i % n] = 1
+    return mat
+
+def multiply_mat(mat1: list, mat2: list) -> list:
+    len_mat = len(mat1)
+    mat = [[] for _ in range(len_mat)]
+    for y in range(len_mat):
+        for x in range(len_mat):
+            mat[y].append(0)
+            for i in range(len(mat2)):
+                mat[y][x] += mat1[y][i] * mat2[i][x]
+    return mat
+
+def compute_mat(mat: list, mat_pow: list, sign: int, fact: int) -> None:
+    len_mat = len(mat)
+    for y in range(len_mat):
+        for x in range(len_mat):
+            mat[y][x] += sign * mat_pow[y][x] / fact
+
+def fun_SINH(mat: list) -> list:
+    mat_init = mat
+    mat = multiply_mat(mat, mat)
+    mat_pow = multiply_mat(mat, mat_init)
+    fact = 1
+    for f in range(NB_IT):
+        fact *= (2 * f + 2) * (2 * f + 3)
+        compute_mat(mat_init, mat_pow, 1, fact)
+        mat_pow = multiply_mat(mat_pow, mat)
+    return mat_init
+
+def fun_COSH(mat: list) -> list:
+    mat_init = get_identity_mat(len(mat))
+    mat = multiply_mat(mat, mat)
+    mat_pow = mat
+    fact = 1
+    for f in range(NB_IT):
+        fact *= (2 * f + 1) * (2 * f + 2)
+        compute_mat(mat_init, mat_pow, 1, fact)
+        mat_pow = multiply_mat(mat_pow, mat)
+    return mat_init
+
+def fun_SIN(mat: list) -> list:
+    mat_init = mat
+    mat = multiply_mat(mat, mat)
+    mat_pow = multiply_mat(mat, mat_init)
+    fact = 1
+    sign = 1
+    for f in range(NB_IT):
+        sign *= -1
+        fact *= (2 * f + 2) * (2 * f + 3)
+        compute_mat(mat_init, mat_pow, sign, fact)
+        mat_pow = multiply_mat(mat_pow, mat)
+    return mat_init
+
+def fun_COS(mat: list) -> list:
+    mat_init = get_identity_mat(len(mat))
+    mat = multiply_mat(mat, mat)
+    mat_pow = mat
+    fact = 1
+    sign = 1
+    for f in range(NB_IT):
+        sign *= -1
+        fact *= (2 * f + 1) * (2 * f + 2)
+        compute_mat(mat_init, mat_pow, sign, fact)
+        mat_pow = multiply_mat(mat_pow, mat)
+    return mat_init
+
+def fun_EXP(mat: list) -> list:
+    mat_init = get_identity_mat(len(mat))
+    mat_pow = mat
+    fact = 1
+    for f in range(NB_IT):
+        fact *= f + 1
+        compute_mat(mat_init, mat_pow, 1, fact)
+        mat_pow = multiply_mat(mat_pow, mat)
+    return mat_init
+
+def main(ac: int, av: list) -> None:
+    cat = check_entry(ac, av)
+    mat = create_mat(ac - 1, av[1:])
+    functions = [fun_EXP, fun_COS, fun_SIN, fun_COSH, fun_SINH]
+    for i in functions[cat](mat):
+        print("\t".join(str(f"{j:.2f}") for j in i))
+    sys.exit(0)
+
+if __name__ == "__main__":
+    argv = sys.argv
+    argc = len(argv)
+    main(argc - 1, argv[1:])

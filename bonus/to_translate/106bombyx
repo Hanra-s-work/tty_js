@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 106bombyx
+## File description:
+## Compute growth rate
+##
+
+import sys
+
+def help() -> None:
+    print("USAGE")
+    print("    ./106bombyx n [k | i0 i1]")
+    print("DESCRIPTION")
+    print("    n       number of first generation individuals")
+    print("    k       growth rate from 1 to 4")
+    print("    i0      initial generation (included)")
+    print("    i1      final generation (included)")
+    sys.exit(0)
+
+
+def is_an_int(element: str) -> bool:
+    try:
+        int(element)
+        return int(element) >= 0
+    except ValueError:
+        return False
+
+
+def is_a_float(element: str) -> bool:
+    try:
+        float(element)
+        return float(element) >= 0
+    except ValueError:
+        return False
+
+
+def check_entry(ac: int, av: list) -> None:
+    if ac == 1 and (av[0] == "-h" or av[0] == "--help"):
+        help()
+    elif ac < 2 or ac > 3:
+        print("Invalid args !\n\nSee ./106bombyx --help")
+        sys.exit(84)
+    for i in av:
+        if not is_an_int(i) and not (is_a_float(i) and av.index(i) == 1 and ac == 2):
+            print("Invalid args !\n\nSee ./106bombyx --help")
+            sys.exit(84)
+    if ac == 2 and (float(av[1]) < 1 or float(av[1]) > 4):
+        print("Invalid args !\n\nSee ./106bombyx --help")
+        sys.exit(84)
+    if ac == 3 and (int(av[2]) < int(av[1]) or int(av[1]) == 0 or int(av[2] == 0)):
+        print("Invalid args !\n\nSee ./106bombyx --help")
+        sys.exit(84)
+
+
+def main(ac: int, av: list) -> int:
+    check_entry(ac, av)
+    if ac == 2:
+        op = int(av[0])
+        for i in range(1, 101, 1):
+            print(f"{i} {op:.2f}")
+            op = float(av[1]) * op * ((1000 - op) / 1000)
+            op = 0 if op < 0 else op
+    if ac == 3:
+        for i in [(k / 100) for k in range (100, 401, 1)]:
+            op = int(av[0])
+            for j in range(1, int(av[2]) + 1, 1):
+                if (j >= int(av[1])):
+                    print(f"{i:.2f} {op:.2f}")
+                op = i * op * ((1000 - op) / 1000)
+                op = 0 if op < 0 else op
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    argv = sys.argv
+    argc = len(argv)
+    main(argc - 1, argv[1:])

@@ -1,0 +1,103 @@
+#!/usr/bin/python3
+
+import sys
+import math
+
+args = sys.argv
+argc = len(args)
+
+def is_float(element) -> bool:
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
+
+def is_int(element) -> bool:
+    try:
+        int(element)
+        return True
+    except ValueError:
+        return False
+
+def exit_prog(code: int) -> None:
+    sys.exit(code)
+
+def error_exit(string: str) -> None:
+    print(string)
+    exit_prog(84)
+
+def message_exit(string: str) -> None:
+    print(string)
+    exit_prog(0)
+
+def check_argsc() -> None:
+    if argc == 2 and args[1] == "-h":
+        print_help()
+    elif argc != 5:
+        error_exit("Invalid args count !\nSee ./104neutrinos -h")
+    elif not is_int(args[1]) or not is_int(args[2]) or not is_int(args[3]) or not is_int(args[4]):
+        error_exit("Invalid args type !\nSee ./104neutrinos -h")
+
+def print_help() -> None:
+    print("USAGE")
+    print("    ./104neutrinos n a h sd")
+    print("")
+    print("DESCRIPTION")
+    print("    n       number of values")
+    print("    a       arithmetic mean")
+    print("    h       harmonic mean")
+    print("    sd      standard deviation")
+    exit_prog(0)
+
+def print_res(n: int, sd: float, a: float, root_mean_square: float, h: float) -> None:
+    print(f"    Number of values:\t{n}")
+    print(f"    Standard deviation:\t{sd:.2f}")
+    print(f"    Arithmetic mean:\t{a:.2f}")
+    print(f"    Root mean square:\t{root_mean_square:.2f}")
+    print(f"    Harmonic mean:\t{h:.2f}")
+    print("")
+
+def print_answer() -> None:
+    print("Enter next value: ", end="")
+
+def getinput():
+    try:
+        v = input()
+        if v == "END":
+            return v
+        if not is_float(v):
+            message_exit("invalid number")
+        return float(v)
+    except EOFError:
+        message_exit("Why did you do an EOF on me ?")
+    except KeyboardInterrupt:
+        message_exit("You cancelled the operation.")
+
+def start_loop() -> None:
+    n = int(args[1])
+    a = float(args[2])
+    h = float(args[3])
+    sd = float(args[4])
+    root_mean_square = math.sqrt(a**2 + sd**2)
+    print_answer()
+    val = getinput()
+    while not val == "END":
+        n += 1
+        sd = math.sqrt(((n - 2) * sd**2 + (val - a)**2) / (n - 1))
+        a = (a * (n - 1) + val) / n
+        h = ((h * (n - 1) + val) / n)
+        h -= h % 0.01
+        root_mean_square = math.sqrt((root_mean_square**2 * (n - 1) + val**2) / n)
+        print_res(n, sd, a, root_mean_square, h)
+        print_answer()
+        val = getinput()
+
+def main() -> None:
+    check_argsc()
+    if int(args[1]) < 1:
+        error_exit("n cannot be negative !")
+    start_loop()
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 107transfer
+## File description:
+## Compute growth rate
+##
+
+import sys
+
+def help() -> None:
+    print("USAGE")
+    print("    ./107transfer [num den]+")
+    print("DESCRIPTION")
+    print("    num     polynomial numerator defined by its coefficients")
+    print("    den     polynomial denominator defined by its coefficients")
+    sys.exit(0)
+
+
+def check_entry(ac: int, av: list) -> None:
+    if ac == 1 and (av[0] == "-h" or av[0] == "--help"):
+        help()
+    if ac == 0 or ac % 2 != 0:
+        print("Invalid args !\n\nSee ./107transfer --help")
+        sys.exit(84)
+    chars = "0123456789*-"
+    for str in [av[i] for i in range(len(av))]:
+        if len(str) == 0 or str[0] == '*' or str[-1] == '*':
+            print("Invalid args !\n\nSee ./107transfer --help")
+            sys.exit(84)
+        is_star = False
+        for i in str:
+            if (i not in chars or (i == '*' and is_star)):
+                print("Invalid args !\n\nSee ./107transfer --help")
+                sys.exit(84)
+            is_star = True if i == '*' else False
+
+
+def search_functions(str: str) -> list:
+    tab = []
+    len_str = len(str)
+    for i in range(len_str - 1, -1, -1):
+        if (i == 0 or str[i - 1] == '*'):
+            tab.append(int(str[i:len_str]))
+            len_str = i - 1
+    return tab
+
+
+def compute_polynomial(tab: list, x: float, is_den: bool) -> float:
+    result = tab[0]
+    for i in tab[1:]:
+        result = i + result * x
+    if result == 0 and is_den:
+        print("! Division by 0 not possible !")
+        sys.exit(84)
+    return result
+
+
+def main(ac: int, av: list) -> int:
+    check_entry(ac, av)
+    tab = [search_functions(i) for i in av]
+    for x in [(n / 1000) for n in range(1001)]:
+        tot_num = 1
+        tot_den = 1
+        for i in range(0, len(tab), 2):
+            tot_num *= compute_polynomial(tab[i], x, False)
+            tot_den *= compute_polynomial(tab[i + 1], x, True)
+        print(f"{x:.3f} -> {tot_num / tot_den:.5f}")
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    argv = sys.argv
+    argc = len(argv)
+    main(argc - 1, argv[1:])

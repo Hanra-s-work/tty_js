@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 107transfer
+## File description:
+## Compute growth rate
+##
+
+import os
+import sys
+import csv
+
+def is_float(element) -> bool:
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
+
+def help() -> None:
+    print("USAGE")
+    print("    ./109titration file")
+    print("DESCRIPTION")
+    print("    file    a csv file containing \"vol;ph\" lines")
+    sys.exit(0)
+
+def check_entry(ac: int, av: list) -> None:
+    if ac == 1 and (av[0] == "-h" or av[0] == "--help"):
+        help()
+    if ac != 1 or not os.path.exists(av[0]):
+        print("Invalid args !\n\nSee ./109titration --help")
+        sys.exit(84)
+
+def process_csv_read(file_name: str) -> list:
+    data = []
+
+    with open(file_name, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        for row in reader:
+            if (len(row) != 2 or not is_float(row[0]) or not is_float(row[1])
+                or float(row[0]) < 0 or not (0 <= float(row[1]) <= 14)):
+                sys.exit(84)
+            data.append([float(row[0]), float(row[1])])
+    if len(data) < 5:
+        sys.exit(84)
+    for i in range(len(data)):
+        for j in range(len(data)):
+            if data[i][0] == data[j][0] and i != j:
+                sys.exit(84)
+    return data
+
+def estimation(values: list, eq_point: int, derivate: list, is_long: bool) -> None:
+    estimation = ((values[eq_point + 1][1] - values[eq_point][1]) /
+        ((values[eq_point + 1][0] - values[eq_point][0]) * 10))
+    value = values[eq_point][1]
+    for i in [x / 10 for x in range(int(values[eq_point][0] * 10),
+            int(values[eq_point + 1][0] * 10) + is_long)]:
+        derivate.append([i, value])
+        value += estimation
+
+def compute_estimation(values: list, eq_point: int) -> list:
+    derivate = []
+    if (len(values) == 1):
+        derivate = values
+    elif (len(values) == 2):
+        if eq_point == 0:
+            estimation(values, eq_point, derivate, True)
+        else:
+            estimation(values, eq_point - 1, derivate, True)
+    else:
+        if (eq_point > 0):
+            estimation(values, eq_point - 1, derivate, False)
+        if (eq_point < len(values) - 1):
+            estimation(values, eq_point, derivate, True)
+    for i in derivate:
+        print(f"{i[0]} ml -> {i[1]:.2f}")
+    return derivate
+
+def compute_derivate(values: list) -> list:
+    derivate = []
+    for i in range(1, len(values) - 1, 1):
+        ecart = values[i + 1][0] - values[i - 1][0]
+        ecart_prev = values[i][0] - values[i - 1][0]
+        ecart_next = values[i + 1][0] - values[i][0]
+        res = ((values[i][1] - values[i - 1][1]) / ecart_prev) * (ecart_next / ecart)
+        res += ((values[i + 1][1] - values[i][1]) / ecart_next) * (ecart_prev / ecart)
+        derivate.append([values[i][0], res])
+    for i in derivate:
+        print(f"{i[0]} ml -> {i[1]:.2f}")
+    return derivate
+
+def main(ac: int, av: list) -> None:
+    check_entry(ac, av)
+    values = process_csv_read(av[0])
+    print("Derivative:")
+    derivate = compute_derivate(values)
+    value = 0
+    eq = derivate[0]
+    for i in range(len(derivate)):
+        if derivate[i][1] > eq[1]:
+            eq = derivate[i]
+            value = i
+    print(f"\nEquivalence point at {eq[0]} ml")
+    print("\nSecond derivative:")
+    derivate = compute_derivate(derivate)
+    print("\nSecond derivative estimated:")
+    derivate = compute_estimation(derivate, value - 1)
+    eq = derivate[0]
+    for i in range(len(derivate)):
+        if abs(derivate[i][1]) < abs(eq[1]):
+            eq = derivate[i]
+    print(f"\nEquivalence point at {eq[0]} ml")
+    sys.exit(0)
+
+if __name__ == "__main__":
+    argv = sys.argv
+    argc = len(argv)
+    main(argc - 1, argv[1:])

@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 105demography
+## File description:
+## Compute demography factors
+##
+
+import sys
+import math
+import csv
+
+args = sys.argv
+argc = len(args)
+
+
+def exit_prog(code: int) -> None:
+    sys.exit(code)
+
+
+def error_exit(string: str) -> None:
+    print(string)
+
+    exit_prog(84)
+
+
+def print_help() -> None:
+    print("USAGE")
+    print("    ./105demography [code]+")
+    print("")
+    print("DESCRIPTION")
+    print("    code    contry code")
+
+    exit_prog(0)
+
+
+def check_argsc() -> None:
+    if argc == 2 and (args[1] == "-h" or args[1] == "--help"):
+        print_help()
+    elif argc < 2:
+        error_exit("Invalid args !\n\nSee ./105demography --help")
+
+
+def process_csv_read(countries: list) -> list:
+    datas = []
+
+    with open("src/105demography_data.csv", newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        for row in reader:
+            if row[1] in countries:
+                if not row[2]:
+                    print(f"Error: '{row[0]}' is not available.")
+                    sys.exit(84)
+                row_data = [int(value) if value.isdigit() else value for value in row]
+                datas.append(row_data)
+
+    return datas
+
+
+def compute_deviation(data_x: list, data_y: list, coef_a: float, coef_b: float, len_tab: int, turn: bool) -> int:
+    sum_rms = 0
+
+    for i in range(2, len_tab + 2):
+        sum_y = 0
+        sum_x = 0
+        for j in data_y:
+            sum_y += j[i]
+        for k in data_x:
+            sum_x += k[i]
+        temp = (coef_a * sum_x + coef_b) if not turn else ((sum_x - coef_b) / coef_a)
+        sum_rms += (sum_y - temp)**2
+
+    sum_rms = math.sqrt(sum_rms / len_tab)
+
+    return sum_rms
+
+
+def compute_ax_plus_b(data_x: list, data_y: int, len_tab: int) -> tuple:
+    sum_xy = 0
+    sum_x = 0
+    sum_y = 0
+    sum_x2 = 0
+
+    for i in range(2, len_tab + 2):
+        sum_data_x = 0
+        sum_data_y = 0
+        for j in data_x:
+            sum_data_x += j[i]
+        for k in data_y:
+            sum_data_y += k[i]
+        sum_xy += sum_data_x * sum_data_y
+        sum_x += sum_data_x
+        sum_y += sum_data_y
+        sum_x2 += sum_data_x**2
+
+    ax = (len_tab * sum_xy - sum_x * sum_y) / (len_tab * sum_x2 - sum_x**2)
+    b = (sum_y * sum_x2 - sum_x * sum_xy) / (len_tab * sum_x2 - sum_x**2)
+
+    return (ax, b)
+
+
+def find_nbs(data_x: list, data_y: list, len_tab: int, turn: bool) -> float:
+    ax = 0
+    b = 0
+
+    ax, b = compute_ax_plus_b(data_x if not turn else data_y,
+            data_y if not turn else data_x, len_tab)
+    sign = '+' if b >= 0 else '-'
+    rms = compute_deviation(data_x, data_y, ax, b, len_tab, turn)
+    estimation = (ax * 2050 + b) if not turn else ((2050 - b) / ax)
+    b = -b if b < 0 else b
+
+    print(f"Fit{turn + 1}")
+    print(f"    {'X' if turn else 'Y'} = {ax:.2f}",
+          f"{'Y' if turn else 'X'} {sign} {b:.2f}")
+    print(f"    Root-mean-square deviation: {rms:.2f}")
+    print(f"    Population in 2050: {estimation:.2f}")
+
+    return rms
+
+
+def main() -> None:
+    check_argsc()
+
+    data_years = process_csv_read("Country Code")
+    csv_data = process_csv_read(sys.argv[1:])
+
+    if len(csv_data) != argc - 1:
+        error_exit("Invalid args !\n\nSee ./105demography --help")
+    len_data = len(csv_data)
+    len_tab = len(data_years[0]) - 2
+
+    print("Country:", end= " ")
+
+    for country in range(len_data):
+        print(csv_data[country][0], end =", " if country < len_data - 1 else "\n")
+    for country in csv_data:
+        for year in range(2, len_tab + 2):
+            country[year] /= 1000000
+
+    correlation = find_nbs(data_years, csv_data, len_tab, False)
+    correlation /= find_nbs(data_years, csv_data, len_tab, True)
+
+    print(f"Correlation: {correlation:.4f}")
+
+    exit_prog(0)
+
+
+if __name__ == "__main__":
+    main()

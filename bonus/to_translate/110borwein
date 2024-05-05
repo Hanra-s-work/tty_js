@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2024
+## 107transfer
+## File description:
+## Compute growth rate
+##
+
+from sys import exit, argv
+from math import sin, pi
+
+def help() -> None:
+    print("USAGE")
+    print("    ./110 borwein n")
+    print("DESCRIPTION")
+    print("    n   constant defining the integral to be computed")
+    exit(0)
+
+def is_int(element) -> bool:
+    try:
+        int(element)
+        return int(element) >= 0
+    except ValueError:
+        return False
+
+def check_entry(ac: int, av: list) -> int:
+    if ac == 1 and (av[0] == "-h" or av[0] == "--help"):
+        help()
+    if ac != 1 or not is_int(av[0]):
+        print("Invalid args !\n\nSee ./109titration --help")
+        exit(84)
+    return int(av[0])
+
+def compute_integral(n: int, x: float) -> float:
+    res = 1
+    for i in range(n + 1):
+        op = x / (2 * i + 1)
+        res *= (sin(op) / op) if op != 0 else 1
+    return res
+
+def compute_simpson(n: int, a: float, b: float) -> float:
+    return ((b - a) / 6) * (compute_integral(n, a) + compute_integral(n, b)
+        + (4 * compute_integral(n, (a + b) / 2)))
+
+def compute_trapezoid(n: int, a: float, b: float) -> float:
+    return ((b - a) / 2) * (compute_integral(n, a) + compute_integral(n, b))
+
+def compute_midpoint(n: int, a: float, b: float) -> float:
+    return (b - a) * compute_integral(n, (a + b) / 2)
+
+def sum_integral(function, n: int) -> float:
+    res = 0
+    for i in range(10000):
+        res += function(n, i / 2, i / 2 + 0.5)
+    return res
+
+def print_res(string: str, res: float, n: int) -> None:
+    print(string)
+    print(f"I{n} = {res:.10f}")
+    print(f"diff = {abs(pi / 2 - res):.10f}")
+
+def main(ac: int, av: list) -> None:
+    n = check_entry(ac, av)
+    functions = [compute_midpoint, compute_trapezoid, compute_simpson]
+    text = ["Midpoint:", "Trapezoidal:", "Simpson:"]
+    for i in range(3):
+        print("\n" if i > 0 else "", end ="")
+        print_res(text[i], sum_integral(functions[i], n), n)
+    exit(0)
+
+if __name__ == "__main__":
+    main(len(argv) - 1, argv[1:])

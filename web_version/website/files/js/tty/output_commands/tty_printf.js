@@ -10,7 +10,8 @@ function tty_to_html(html) {
         .replace(/\n/g, "<br>")
         .replace(/\0/g, "<br>")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(/>/g, "&gt;")
+        .replace(/ /g, "&nbsp;");
     // .replace(/\a/g, "(bell)")
     // .replace(/    /g, TTY_TAB_STRING)
     // .replace(/ /g, "&nbsp;")
