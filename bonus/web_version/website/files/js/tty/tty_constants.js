@@ -43,6 +43,7 @@ const TTY_HELP_COMMANDS = {
     "206neutrinos": "Run the program",
     "nano": "Text editor",
     "alert": "Display an alert message",
+    "alert_html": "Display an alert message using a custom html alert window",
     "prompt_js": "Display a prompt message using the default javascript prompt function",
     "prompt_html": "Display a prompt message using a custom html prompt function",
     "reboot": "Reboot the terminal (refresh the page)",
