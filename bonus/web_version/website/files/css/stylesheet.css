@@ -5,10 +5,12 @@
 ** stylesheet.css
 */
 
+/* General management */
 * {
     box-sizing: border-box;
 }
 
+/* History section management*/
 .command_history {
     margin: 5px;
     background-color: #333;

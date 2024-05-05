@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier [fed34_prox_vm]
+** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier
 ** File description:
 ** tty_log.js
 */

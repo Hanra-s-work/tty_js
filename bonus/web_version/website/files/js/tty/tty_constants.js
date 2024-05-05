@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier [fed34_prox_vm]
+** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier
 ** File description:
 ** tty_constants.js
 */
@@ -46,6 +46,6 @@ const TTY_HELP_COMMANDS = {
     "alert_html": "Display an alert message using a custom html alert window",
     "prompt_js": "Display a prompt message using the default javascript prompt function",
     "prompt_html": "Display a prompt message using a custom html prompt function",
-    "reboot": "Reboot the terminal (refresh the page)",
+    "reboot": "Reboot the terminal (This command will mostly act as if you refreshed the page, thus meaning you will loose all unsaved data)",
     "joke": "Display a joke"
 };

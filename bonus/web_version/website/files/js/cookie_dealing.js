@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** B-MAT-400-PAR-4-1-206neutrinos-henry.letellier
+** File description:
+** cookie_dealing.js
+*/
+
 console.log("js/cookie_dealing initialising");
 function createMany(string) {
     document.cookie = string
