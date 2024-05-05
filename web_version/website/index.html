@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Web Version</title>
+    <!-- For development purposes (the no cache zone) -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <!-- End of no cache zone -->
+    <link rel="stylesheet" href="/files/css/tty.css">
+    <link rel="stylesheet" href="/files/css/stylesheet.css">
+    <link rel="stylesheet" href="/files/css/manage_header.css">
+    <link rel="stylesheet" href="/files/css/boostrap_dark.css">
+    <link rel="stylesheet" href="/files/css/win_95_message_box.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./files/img/icon/favicon_16_16.ico" /> <!--//IE-->
+    <link rel="icon" type="image/svg+xml" href="/files/img/icon/favicon_32_32.svg" /> <!--//Chrome extra requirements-->
+    <link rel="icon" type="image/png" href="/files/img/icon/favicon_32_32.png" /> <!--//all-->
+    <link rel="alternate icon" sizes="16x16" href="/files/img/icon/favicon_16_16.ico" />
+    <link rel="alternate icon" sizes="32x32" href="/files/img/icon/favicon_32_32.ico" />
+    <link rel="alternate icon" sizes="48x48" href="/files/img/icon/favicon_48_48.ico" />
+    <link rel="alternate icon" sizes="64x64" href="/files/img/icon/favicon_64_64.ico" />
+    <link rel="alternate icon" sizes="128x128" href="/files/img/icon/favicon_128_128.ico" />
+    <link rel="alternate icon" sizes="256x256" href="/files/img/icon/favicon_256_256.ico" />
+
+</head>
+
+<body>
+    <header class="header-container">
+        <right class="right">
+            <section>
+                <p class="credits" aria-details="The credits, '&copy; Created by Henry Letellier'">&copy; Created by Henry Letellier</p>
+            </section>
+        </right>
+        <center class="center">
+            <h1>206neutrinos</h1>
+        </center>
+        <left class="left">
+            <p>Web version of the 206neutrinos project</p>
+        </left>
+    </header>
+    <main>
+        <section id="prompt_html_overlay">
+            <div id="prompt_html_modal">
+                <p><span id="prompt_html_user_input_question"></span>:</p>
+                <input type="text" id="prompt_html_user_input">
+                <button id="submit_btn" onclick="tty_prompt_html_handle_submit()">Submit</button>
+            </div>
+        </section>
+        <section id="alert_html"></section>
+        <section id="tty_reload" style="display:flex;flex-direction:row;">
+            <p>tty system management: </p>
+            <p><button onclick="document.getElementById('web-terminal-input').disabled = false;document.getElementById('web-terminal-input').placeholder = '$';">Re-enable tty</button></p>
+        </section>
+        <section class="interractive_tty">
+            <nav class="control_section">
+                <p style="padding-left: 1%;"></p>
+                <p><button type="button" class="menuButton" onclick="tty_cls()">Clear</button></p>
+                <p>Background: <input type="color" id="tty_background" onchange="change_colour(['web-terminal', 'web-terminal-ctn', 'web-terminal-form', 'web-terminal-input'], 'tty_background', '', false)"></p>
+                <p>Foreground: <input type="color" id="tty_foreground" onchange="change_colour('.tty_line_format', 'tty_foreground', '', true)"></p>
+                <p><input type="checkbox" id="tty_bold" onclick="tty_change_font_weight('.tty_line_format', 'tty_bold')"> Bold</p>
+                <p><input type="checkbox" id="tty_italic" onclick="tty_change_font_style('.tty_line_format', 'tty_italic')"> Italic</p>
+                <p><input type="checkbox" id="tty_underlined" onclick="tty_change_font_decoration('.tty_line_format', 'tty_underlined')"> Underlined</p>
+                <p>Font size: <input type="number" min="0" max="200" value="12" id="tty_font" onchange="tty_change_font_size('.tty_line_format', 'tty_font')">px</p>
+                <div class="button_treatment">
+                    <span><button class="button_hide" onclick="hide_tty('interractive_tty')">_</button></span>
+                    <span><button class="button_full_screen">&square;</button></span>
+                    <span><button class="button_close" onclick="await tty_exit(0)">X</button></span>
+                </div>
+            </nav>
+            <div id="web-terminal-ctn">
+                <!-- Original pen (from where the inspiration came from [and thus the terminal was adapted from]) : https://codepen.io/mattConn/pen/YvKgzr -->
+                <div id="web-terminal"></div>
+                <form id="web-terminal-form">
+                    <input id="web-terminal-input" class=".tty_line_format" type="text" placeholder="$" autocomplete="off" autofocus />
+                    <input type="submit" />
+                </form>
+            </div>
+        </section>
+        <section class="command_history">
+            <h1 id="command_title">Command history:</h1>
+            <div id="input_commands">
+
+            </div>
+        </section>
+        <section id="copyright_info"></section>
+        <section id="cookie_padding">
+            <inform id="inform_cookie"></inform>
+        </section>
+    </main>
+    <footer>
+        <!-- JS simplified operations -->
+        <script type="text/JavaScript" src="/files/js/sleep.js"></script>
+        <script type="text/JavaScript" src="/files/js/copyright.js"></script>
+        <script type="text/JavaScript" src="/files/js/add_inform.js"></script>
+        <script type="text/JavaScript" src="/files/js/rgba_to_hex.js"></script>
+        <script type="text/JavaScript" src="/files/js/get_class_node.js"></script>
+        <script type="text/JavaScript" src="/files/js/cookie_dealing.js" type="module"></script>
+        <!-- TTY preliminaries -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_html_element.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_html_sanitizer.js"></script>
+        <!-- TTY desing -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_colour.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_size.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_style.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_weight.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_change_font_decoration.js"></script>
+        <!-- TTY constants and globals -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_globals.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_core_vars.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_constants.js"></script>
+        <!-- TTY logging/display commands -->
+        <!-- #parent functions for all displays -->
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_log.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_display.js"></script>
+        <!-- #child boilerplate functions -->
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_printf.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_perror.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_epirror.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/output_commands/tty_welcome_message.js"></script>
+        <!-- TTY small functions re-implementation -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_randint.js"></script>
+        <!-- TTY commands -->
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_ls.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cd.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cat.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_cls.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_pwd.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_env.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_help.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_joke.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_date.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_echo.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_time.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_nano.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_exit.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_alert.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_uname.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_reboot.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_whoami.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_setenv.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_unsetenv.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_js.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_alert_html.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_html.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_206neutrinos.js"></script>
+        <!-- The dictionnary that contains all the commands -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_available_commands.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/tty_regex_input_parsing.js"></script>
+        <!-- The core of the terminal -->
+        <script type="text/JavaScript" src="/files/js/tty/tty_main.js"></script>
+        <!-- Graph drawing -->
+        <script type="text/JavaScript" src="/files/js/chart_drawing/chart.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/compile_names.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/compile_datasets.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_line.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_histogram.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/add_a_pie_chart.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/update_canvas_css.js"></script>
+        <script type="text/JavaScript" src="/files/js/chart_drawing/update_charts.js"></script>
+        <!-- JS function to automatically refresh the page -->
+        <script type="text/JavaScript" src="/files/js/auto_reload.js"></script>
+        <script type="text/JavaScript">
+            //auto_reload(20, false);
+            var tty_bg=window.getComputedStyle(document.getElementById("web-terminal")).backgroundColor,
+            tty_fg=window.getComputedStyle(document.querySelector(".tty_line_format")).color,
+            tty_italic=window.getComputedStyle(document.querySelector(".tty_line_format")).fontStyle,
+            tty_underline=window.getComputedStyle(document.querySelector(".tty_line_format")).textDecoration,
+            tty_bold=window.getComputedStyle(document.querySelector(".tty_line_format")).fontWeight,
+            tty_size=window.getComputedStyle(document.querySelector(".tty_line_format")).fontSize;
+            
+            console.log(`tty_bg = ${tty_bg}`);
+            console.log(`tty_fg = ${tty_fg}`);
+            console.log(`tty_italic = ${tty_italic}`);
+            console.log(`tty_underline = ${tty_underline}`);
+            console.log(`tty_bold = ${tty_bold}`);
+            console.log(`tty_size = ${tty_size}`);
+            var tty_bg_hex = rgb_to_hex(tty_bg),
+            tty_fg_hex = rgb_to_hex(tty_fg),
+            tty_italic_bool = false,
+            tty_underline_bool = false,
+            tty_bold_bool = false;
+            console.log(`tty_bg_hex = ${tty_bg_hex}`);
+            console.log(`tty_fg_hex = ${tty_fg_hex}`);
+            if (tty_italic != "normal") {
+                tty_italic_bool = true;
+            }
+            if (tty_underline.includes("underline")) {
+                tty_underline_bool = true;
+            }
+            if (tty_bold != 400) {
+                tty_bold_bool = true;
+            }
+
+            document.getElementById("tty_background").value = tty_bg_hex;
+            document.getElementById("tty_foreground").value = tty_fg_hex;
+            document.getElementById("tty_font").value = tty_size.slice(0, -2);
+            document.getElementById("tty_bold").checked = tty_bold_bool;
+            document.getElementById("tty_italic").checked = tty_italic_bool;
+            document.getElementById("tty_underlined").checked = tty_underline_bool;
+            copyright("copyright_info");
+            add_inform("inform_cookie");
+        </script>
+    </footer>
+</body>
+
+</html>
