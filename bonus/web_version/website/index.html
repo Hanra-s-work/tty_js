@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/files/css/stylesheet.css">
     <link rel="stylesheet" href="/files/css/manage_header.css">
     <link rel="stylesheet" href="/files/css/boostrap_dark.css">
+    <link rel="stylesheet" href="/files/css/win_95_message_box.css">
     <link rel="shortcut icon" type="image/x-icon" href="./files/img/icon/favicon_16_16.ico" /> <!--//IE-->
     <link rel="icon" type="image/svg+xml" href="/files/img/icon/favicon_32_32.svg" /> <!--//Chrome extra requirements-->
     <link rel="icon" type="image/png" href="/files/img/icon/favicon_32_32.png" /> <!--//all-->
@@ -47,6 +48,7 @@
                 <button id="submit_btn" onclick="tty_prompt_html_handle_submit()">Submit</button>
             </div>
         </section>
+        <section id="alert_html"></section>
         <section id="tty_reload" style="display:flex;flex-direction:row;">
             <p>tty system management: </p>
             <p><button onclick="document.getElementById('web-terminal-input').disabled = false;document.getElementById('web-terminal-input').placeholder = '$';">Re-enable tty</button></p>
@@ -139,6 +141,7 @@
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_setenv.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_unsetenv.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_js.js"></script>
+        <script type="text/JavaScript" src="/files/js/tty/commands/tty_alert_html.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_prompt_html.js"></script>
         <script type="text/JavaScript" src="/files/js/tty/commands/tty_206neutrinos.js"></script>
         <!-- The dictionnary that contains all the commands -->

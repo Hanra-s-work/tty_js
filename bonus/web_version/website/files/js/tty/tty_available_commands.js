@@ -40,6 +40,7 @@ const tty_available_commands = {
     "206neutrinos": tty_epitech_206neutrinos_start_stop_message,
     "nano": tty_nano,
     "alert": tty_alert,
+    "alert_html": tty_alert_html,
     "prompt_js": tty_prompt_js,
     "prompt_html": tty_prompt_html,
     "reboot": tty_reboot,
