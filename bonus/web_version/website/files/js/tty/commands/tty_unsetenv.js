@@ -5,18 +5,31 @@
 ** tty_unsetenv.js
 */
 
+function tty_unsetenv_help() {
+    tty_printf("unsetenv: unsetenv VARIABLE1 [etc...]", true, false, false);
+}
+
+function tty_remove_variables(command) {
+    for (let i = 0; i < command.length; i++) {
+        if (TTY_ENV.hasOwnProperty(command[i])) {
+            tty_printf(`unsetenv: Key '${command[i]}' found, deleting`);
+            delete TTY_ENV[command[i]];
+        } else {
+            tty_printf(`unsetenv: Variable '${command[i]}' not found.`, true, false, false);
+        }
+    }
+}
+
 async function tty_unsetenv(command) {
+    var found = false;
     if (command.length < 1) {
         tty_printf("unsetenv: Too few arguments.", true, false, false);
         return TTY_ERROR;
     }
     if (TTY_HELP_TOKEN.includes(command[0])) {
-        tty_printf("unsetenv: unsetenv VARIABLE1 [etc...]", true, false, false);
+        tty_unsetenv_help();
         return TTY_SUCCESS;
     }
-    for (let i = 1; i < command.length; i++) {
-        if (command[i] in TTY_ENV)
-            delete TTY_ENV[command[i]];
-    }
+    tty_remove_variables(command);
     return TTY_SUCCESS;
 }
